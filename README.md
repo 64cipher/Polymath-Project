@@ -28,5 +28,5 @@ Assistant virtuel personnalisable pour Windows
     "ouvre vscode"   
     "on est quel jour"
     "discuter" (chat avec Gemini)
-    "screenshot" (Gemini)
+    "screenshot" (En mode Gemini)
     "standard" (retour en mode assistant)
