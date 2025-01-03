@@ -1,0 +1,12 @@
+Pillow
+SpeechRecognition
+pyttsx3
+requests
+google-generativeai
+wikipedia
+opencv-python
+numpy
+mss
+google-ai-generativelanguage
+gTTS
+playsound

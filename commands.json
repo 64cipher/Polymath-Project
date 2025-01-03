@@ -1,0 +1,71 @@
+{
+    "ouvre firefox": {
+        "type": "launch",
+        "path": "C:/Program Files/Mozilla Firefox/firefox.exe"
+    },
+    "ouvre discord": {
+        "type": "launch",
+        "path": "C:/Users/silve/AppData/Local/Discord/app-1.0.9175/Discord.exe"
+    },
+    "quelle heure est-il": {
+        "type": "time"
+    },
+    "google": {
+        "type": "google"
+    },
+    "youtube": {
+        "type": "youtube"
+    },
+    "Wikip\u00e9dia": {
+        "type": "wikipedia"
+    },
+    "dis bonjour": {
+        "type": "say",
+        "text": "Bonjour \u00e0 vous !"
+    },
+    "test": {
+        "type": "say",
+        "text": "test de voix"
+    },
+    "ouvre une musique relaxante": {
+        "type": "open_file",
+        "path": "chemin/vers/ta/musique.mp3"
+    },
+    "lance ma video pr\u00e9f\u00e9r\u00e9e": {
+        "type": "open_file",
+        "path": "chemin/vers/ta/video.mp4"
+    },
+    "prends note": {
+        "type": "take_note"
+    },
+    "ouvre chrome": {
+        "type": "launch",
+        "path": "C:/Program Files/Google/Chrome/Application/chrome.exe"
+    },
+    "ouvre le terminal": {
+        "type": "launch",
+        "path": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+    },
+    "ouvre notepad": {
+        "type": "launch",
+        "path": "C:/Windows/System32/notepad.exe"
+    },
+    "calculer": {
+        "type": "ask_calculate"
+    },
+    "ouvre le studio": {
+        "type": "launch",
+        "path": "C:/Program Files/Image-Line/FL Studio 2024/FL64.exe"
+    },
+    "ouvre vscode": {
+        "type": "launch",
+        "path": "C:/Users/silve/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+    },
+    "wesh ma gueule": {
+        "type": "say",
+        "text": "wesh bien ou quoi"
+    },
+    "on est quel jour": {
+        "type": "date"
+    }
+}
