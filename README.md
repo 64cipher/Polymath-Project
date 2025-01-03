@@ -30,3 +30,9 @@ Assistant virtuel personnalisable pour Windows
     "discuter" (chat avec Gemini)
     "screenshot" (En mode Gemini)
     "standard" (retour en mode assistant)
+
+# Note
+
+le programme a quelques défauts comme le calcul.
+
+Dites 2 astérisque 3, et non 2 fois 3 car le "fois" est le symbole x et c'est compris comme étant la lettre x et non le symbole multiplier
