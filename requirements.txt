@@ -12,4 +12,4 @@ gTTS
 playsound
 tkinter
 requests
-threading
+threaded
