@@ -11,3 +11,5 @@ google-ai-generativelanguage
 gTTS
 playsound
 tkinter
+requests
+threading
