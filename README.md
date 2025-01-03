@@ -29,6 +29,7 @@ Assistant virtuel personnalisable pour Windows
     "on est quel jour"
     "discuter" (chat avec Gemini)
     "screenshot" (En mode Gemini)
+    "webcam" (En mode Gemini)
     "standard" (retour en mode assistant)
 
 # Note
