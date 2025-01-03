@@ -10,3 +10,4 @@ mss
 google-ai-generativelanguage
 gTTS
 playsound
+tkinter
