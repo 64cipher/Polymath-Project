@@ -25,6 +25,16 @@ from gtts import gTTS
 from playsound import playsound
 import webbrowser
 import threading
+import locale  # Import du module locale
+
+# Définir la locale en français (si disponible)
+try:
+    locale.setlocale(locale.LC_TIME, 'fr_FR.utf8')
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_TIME, 'fr_FR')
+    except locale.Error:
+        print("Attention : la locale française n'est pas supportée sur votre système.")
 
 # ----- Chargement des Configurations -----
 CONFIG_FILE = "config.json"
