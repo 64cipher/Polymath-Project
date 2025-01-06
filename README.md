@@ -34,6 +34,8 @@ Assistant virtuel personnalisable pour Windows
     "webcam" (En mode Gemini)
     "standard" (retour en mode assistant)
 
+D'autres fonctionnalités sont à venir en fonction de mon inspiration.
+
 # Note
 
 le programme a quelques défauts comme le calcul.
