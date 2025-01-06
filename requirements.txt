@@ -14,3 +14,4 @@ tk
 threaded
 python-math
 keyboard
+schedule
