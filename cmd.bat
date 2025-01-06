@@ -1,0 +1,2 @@
+@echo on
+start powershell
