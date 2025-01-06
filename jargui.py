@@ -26,6 +26,7 @@ from playsound import playsound
 import webbrowser
 import threading
 import locale  # Import du module locale
+import keyboard # Import du module keyboard
 
 # Définir la locale en français (si disponible)
 try:
@@ -101,6 +102,8 @@ llm_state = "idle"
 camera = cv2.VideoCapture(0)
 if not camera.isOpened():
     print("Erreur : Impossible d'ouvrir la caméra. Vérifiez qu'elle est connectée et accessible.")
+speech_to_text_active = False # Ajout de la variable pour l'état du speech to text
+text_buffer = "" # Ajout du tampon pour le texte
 
 # ----- Fonctions de Base -----
 
@@ -609,9 +612,21 @@ def refresh_responses_list():
 def main_loop():
     global mode
     global camera
+    global speech_to_text_active
+    global text_buffer
     listening = False
     while True:
         if mode == "standard":
+            if speech_to_text_active:
+                print("Saisie vocale active...")
+                query = get_audio()
+                if query:
+                    # Simuler la saisie clavier dans la fenêtre active
+                    keyboard.write(query + " ")
+                if "arrêt de la saisie" in query:
+                    speech_to_text_active = False
+                    speak(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
+                continue
             if not listening:
                 print("Écoute...")
                 listening = True
@@ -627,11 +642,17 @@ def main_loop():
                 mode = "standard"
                 continue
             
+            if "saisie vocale" in query:
+                speech_to_text_active = True
+                text_buffer = ""
+                speak(responses.get("speech_to_text_start","Saisie vocale activée"))
+                continue
+            
             for command, action in commands.items():
                 if command in query:
                     command_recognized = True
-                    print(f"Vous avez dit : {query}")  # affichage uniquement si command reconnu
-                    listening = False # On veut relancer l'écoute après avoir executé la commande.
+                    print(f"Vous avez dit : {query}")
+                    listening = False
                     command_type = commands.get(command,{}).get("type")
                     if isinstance(action,dict) and action.get("type") == "open_file":
                         open_file(action.get("path"))
@@ -656,7 +677,7 @@ def main_loop():
                     break
             if not command_recognized:
                 continue
-
+    
 # ----- Initialisation de l'Interface Graphique -----
 root = tk.Tk()
 root.title("Assistant Vocal")
@@ -719,6 +740,14 @@ edit_response_button.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
     
 delete_response_button = tk.Button(response_frame, text="Supprimer", command=delete_response)
 delete_response_button.grid(row=1, column=2, sticky=tk.W, padx=5, pady=5)
+
+# --- Text Area Frame ---
+text_area_frame = ttk.LabelFrame(root, text="Zone de Saisie Vocale")
+text_area_frame.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
+
+text_area = tk.Text(text_area_frame, height=10, width=50)
+text_area.grid(row=0,column=0, padx=5, pady=5)
+text_area.config(state=tk.DISABLED) # Désactiver la zone de texte pour éviter toute modification manuelle
 
 # --- Démarrage de la boucle principale ---
 speak(responses.get("startup_message", "Bonjour, je suis à votre écoute."))
