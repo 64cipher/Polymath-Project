@@ -633,7 +633,7 @@ def schedule_task():
         return
     
     while True: # Boucle pour réessayer la saisie d'heure.
-      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ? (format HH:MM)"))
+      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ?"))
       time_str = get_audio()
       if not time_str:
           speak(responses.get("schedule_no_time", "Je n'ai pas compris l'heure."))
