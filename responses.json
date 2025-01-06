@@ -26,5 +26,7 @@
   "note_prompt": "Que souhaitez-vous noter?",
   "note_saved": "Note enregistrée dans {filepath}",
   "note_error": "Erreur lors de la sauvegarde de la note",
-  "calculate_prompt":"Quel calcul souhaitez-vous effectuer ?"
+  "calculate_prompt":"Quel calcul souhaitez-vous effectuer ?",
+  "speech_to_text_start":"Saisie vocale activée",
+  "speech_to_text_stop":"Saisie vocale désactivée"
 }
