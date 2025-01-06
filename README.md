@@ -7,6 +7,8 @@ Assistant virtuel personnalisable pour Windows
 
 # Installation et Usage
 
+Placer votre clé API Gemini dans ```config.json```
+
 ```pip install -r requirements.py```
 
 ```python jargui.py ```
