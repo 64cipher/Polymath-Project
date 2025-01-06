@@ -104,6 +104,7 @@ if not camera.isOpened():
     print("Erreur : Impossible d'ouvrir la caméra. Vérifiez qu'elle est connectée et accessible.")
 speech_to_text_active = False # Ajout de la variable pour l'état du speech to text
 text_buffer = "" # Ajout du tampon pour le texte
+speech_to_text_message_shown = False # Ajout de la variable pour savoir si le message a déjà été affiché.
 
 # ----- Fonctions de Base -----
 
@@ -614,18 +615,22 @@ def main_loop():
     global camera
     global speech_to_text_active
     global text_buffer
+    global speech_to_text_message_shown
     listening = False
     while True:
         if mode == "standard":
             if speech_to_text_active:
-                print("Saisie vocale active...")
+                if not speech_to_text_message_shown:
+                    print("Saisie vocale active...")
+                    speech_to_text_message_shown = True
                 query = get_audio()
-                if query:
+                if query and "arrêt de la saisie" not in query: # On ne transcrit pas "arrêt de la saisie"
                     # Simuler la saisie clavier dans la fenêtre active
                     keyboard.write(query + " ")
                 if "arrêt de la saisie" in query:
                     speech_to_text_active = False
                     speak(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
+                    speech_to_text_message_shown = False
                 continue
             if not listening:
                 print("Écoute...")
