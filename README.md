@@ -43,6 +43,10 @@ Pour ouvrir une console, configurer "ouvrir le terminal" et créer un fichier cm
     "@echo on"
     "start powershell"
 
+Ouvrir un site web spécifique depuis un fichier bat qui contient
+
+    "start "https://google.com""
+
 D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
 # Note
