@@ -27,6 +27,8 @@ import webbrowser
 import threading
 import locale  # Import du module locale
 import keyboard # Import du module keyboard
+import schedule # Import du module schedule
+import time # Import du module time
 
 # Définir la locale en français (si disponible)
 try:
@@ -222,7 +224,6 @@ def search_web(query, engine_type):
     except Exception as e:
         speak(responses.get("search_error", "Erreur lors de la recherche."))
         print(e)
-
 
 # ----- Fonctions Mode Gemini -----
 
@@ -610,6 +611,80 @@ def refresh_responses_list():
     for key,response in responses.items():
         responses_list.insert("",tk.END,text=key)
 
+def parse_time_from_speech(time_str):
+  """
+  Analyse une chaîne de temps vocale (par exemple, "22 heure 48") et la convertit au format HH:MM.
+  Retourne None si la chaîne ne correspond pas au format attendu.
+  """
+  match = re.match(r"(\d{1,2})\s*(?:heure|h)\s*(\d{1,2})?", time_str)
+  if match:
+      hours = int(match.group(1))
+      minutes = int(match.group(2)) if match.group(2) else 0 # Si les minutes sont absentes on prend 0
+      if 0 <= hours <= 23 and 0 <= minutes <= 59:
+          return f"{hours:02}:{minutes:02}"
+  return None
+    
+
+def schedule_task():
+    speak(responses.get("schedule_command_prompt", "Quelle commande souhaitez-vous planifier ?"))
+    command = get_audio()
+    if not command:
+        speak(responses.get("schedule_no_command", "Je n'ai pas compris la commande."))
+        return
+    
+    while True: # Boucle pour réessayer la saisie d'heure.
+      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ? (format HH:MM)"))
+      time_str = get_audio()
+      if not time_str:
+          speak(responses.get("schedule_no_time", "Je n'ai pas compris l'heure."))
+          continue # Retour au début de la boucle.
+      
+      parsed_time = parse_time_from_speech(time_str) # Convertir l'heure au format HH:MM
+      if parsed_time:
+          try:
+            def task_to_execute():
+              try:
+                 for cmd, action in commands.items():
+                    if cmd in command:
+                        command_type = commands.get(cmd,{}).get("type")
+                        if isinstance(action,dict) and action.get("type") == "open_file":
+                                open_file(action.get("path"))
+                        elif isinstance(action,dict) and action.get("type") == "take_note":
+                                take_note()
+                        elif isinstance(action,dict) and action.get("type") == "launch":
+                                launch_app(action.get("path"))
+                        elif isinstance(action,dict) and action.get("type") == "time":
+                             get_time()
+                        elif isinstance(action,dict) and action.get("type") == "date":
+                              get_date()
+                        elif command_type == "ask_calculate":
+                              ask_calculate()
+                        elif isinstance(action,dict) and action.get("type") == "google":
+                                search_web(command.replace("google","").strip(), "google")
+                        elif isinstance(action,dict) and action.get("type") == "youtube":
+                                search_web(command.replace("youtube","").strip(), "youtube")
+                        elif isinstance(action,dict) and action.get("type") == "wikipedia":
+                                 search_web(command.replace("wikipedia","").strip(), "wikipedia")
+                        elif isinstance(action,dict) and action.get("type") == "say":
+                            speak(action.get("text"))
+                        break
+              except Exception as e:
+                speak(responses.get("command_error", "Erreur lors de l'exécution de la commande"))
+                print(e)
+                
+            schedule.every().day.at(parsed_time).do(task_to_execute)
+            speak(responses.get("schedule_success",f"Tâche '{command}' planifiée pour {parsed_time}."))
+            break # Sortir de la boucle si tout est Ok
+          except Exception as e:
+             speak(responses.get("schedule_error", "Erreur lors de la planification de la tâche."))
+             print(e)
+             break # Sortir de la boucle en cas d'erreur de planification
+
+      else:
+          speak(responses.get("schedule_time_error","Format de l'heure incorrect, veuillez réessayer (HH:MM) ou dire l'heure de façon naturelle (exemple: 22 heure 30)."))
+          continue # Retour au début de la boucle.
+
+
 def main_loop():
     global mode
     global camera
@@ -618,13 +693,14 @@ def main_loop():
     global speech_to_text_message_shown
     listening = False
     while True:
+        schedule.run_pending() # Vérifier s'il y a des taches planifiés à éxécuter.
         if mode == "standard":
             if speech_to_text_active:
                 if not speech_to_text_message_shown:
                     print("Saisie vocale active...")
                     speech_to_text_message_shown = True
                 query = get_audio()
-                if query and "arrêt de la saisie" not in query: # On ne transcrit pas "arrêt de la saisie"
+                if query and "arrêt de la saisie" not in query:
                     # Simuler la saisie clavier dans la fenêtre active
                     keyboard.write(query + " ")
                 if "arrêt de la saisie" in query:
@@ -651,6 +727,10 @@ def main_loop():
                 speech_to_text_active = True
                 text_buffer = ""
                 speak(responses.get("speech_to_text_start","Saisie vocale activée"))
+                continue
+            
+            if "planifier tâche" in query:
+                schedule_task()
                 continue
             
             for command, action in commands.items():
