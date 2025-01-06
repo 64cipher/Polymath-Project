@@ -12,6 +12,8 @@ Placez votre clé API Gemini dans ```config.json```
 ```pip install -r requirements.py```
 
 ```python jargui.py ```
+ou
+Lancez ```start.bat```
 
 # Exemples de commandes
 
