@@ -33,6 +33,7 @@ Lancez ```start.bat```
     "Saisie vocale" (STT On)
     "Arrêt de la saisie" (STT Off)
     "on est quel jour"
+    "Planifier tâche"
     "discuter" (chat avec Gemini)
     "screenshot" (En mode Gemini)
     "webcam" (En mode Gemini)
