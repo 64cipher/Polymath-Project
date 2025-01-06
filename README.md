@@ -34,6 +34,11 @@ Assistant virtuel personnalisable pour Windows
     "webcam" (En mode Gemini)
     "standard" (retour en mode assistant)
 
+Pour ouvrir une console, configurer "ouvrir le terminal" et créer un fichier cmd.bat et mettre le chemin de ce fichier.
+
+    "@echo on"
+    "start powershell"
+
 D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
 # Note
