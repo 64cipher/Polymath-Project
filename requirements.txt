@@ -13,3 +13,4 @@ playsound
 tk
 threaded
 python-math
+keyboard
