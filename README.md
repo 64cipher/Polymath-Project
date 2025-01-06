@@ -25,7 +25,9 @@ Assistant virtuel personnalisable pour Windows
     "ouvre le terminal"
     "ouvre notepad"
     "calculer"
-    "ouvre vscode"   
+    "ouvre vscode"
+    "Saisie vocale" (STT On)
+    "Arrêt de la saisie" (STT Off)
     "on est quel jour"
     "discuter" (chat avec Gemini)
     "screenshot" (En mode Gemini)
