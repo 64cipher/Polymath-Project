@@ -14,7 +14,7 @@ Placez votre clé API Gemini dans ```config.json```
 
 ```pip install -r requirements.py```
 
-```python jargui.py ```
+```python main.py ```
 ou
 Lancez ```start.bat```
 
@@ -55,7 +55,7 @@ D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
 # Note
 
-Vous pouvez personnaliser la table des caractères dans ```jargui.py``` Ligne 166
+Vous pouvez personnaliser la table des caractères dans ```main.py``` Ligne 166
 
 ```        # On remplace les mots clés par de la ponctuation.
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
