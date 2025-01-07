@@ -6,7 +6,7 @@
   "calc_error": "Je n'ai pas compris le calcul.",
   "search_done": "Voici les résultats pour {query}.",
   "search_error": "Erreur lors de la recherche.",
-  "gemini_mode": "Mode Gemini activé.",
+  "gemini_mode": "Je suis prêt à discuter.",
   "gemini_idle": "Je suis prêt à discuter en mode Gemini.",
   "gemini_error": "Erreur lors de la communication avec Gemini.",
   "gemini_image_error": "Erreur lors du traitement de l'image avec Gemini",
