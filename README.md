@@ -15,7 +15,7 @@ Placez votre clé API Gemini dans ```config.json```
 ou
 Lancez ```start.bat```
 
-# Exemples de commandes
+# Exemples de commandes vocales
 
     "ouvre firefox"
     "ouvre discord"
