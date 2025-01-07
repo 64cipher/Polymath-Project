@@ -51,6 +51,23 @@ D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
 # Note
 
-le programme a quelques défauts comme le calcul.
+Vous pouvez personnaliser la table des caractères dans ```jargui.py``` Ligne 166
 
-Dites 2 astérisque 3, et non 2 fois 3 car le "fois" est le symbole x et c'est compris comme étant la lettre x et non le symbole multiplier
+```        # On remplace les mots clés par de la ponctuation.
+        text = re.sub(r'\b(?:signe dièse)\b', '#', text)
+        text = re.sub(r'\b(?:signe plus)\b', '+', text)
+        text = re.sub(r'\b(?:astérisque)\b', '*', text)
+        text = re.sub(r'\b(?:signe fois)\b', '*', text)
+        text = re.sub(r'\b(?:pourcent)\b', '%', text)
+        text = re.sub(r'\b(?:signe moins)\b', '-', text)
+        text = re.sub(r'\b(?:guillemet)\b', '"', text)
+        text = re.sub(r'\b(?:slash)\b', '/', text)
+        text = re.sub(r'\b(?:signe euro)\b', '€', text)
+        text = re.sub(r'\b(?:point d\'interrogation)\b', '?', text)
+        text = re.sub(r'\b(?:point d\'exclamation|exclamation)\b', '!', text)
+        text = re.sub(r'\b(?:virgule)\b', ',', text)
+        text = re.sub(r'\b(?:deux points)\b', ':', text)
+        text = re.sub(r'\b(?:point virgule)\b', ';', text)
+        text = re.sub(r'\b(?:retour à la ligne)\b', '\n', text)
+        text = re.sub(r'\b(?:arobase)\b', '@', text)
+        text = re.sub(r'\s*(?:point final)\s*$', '.', text) # mettre point . si il est seul```
