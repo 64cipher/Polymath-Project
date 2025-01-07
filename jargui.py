@@ -827,7 +827,7 @@ def main_loop():
     
 # ----- Initialisation de l'Interface Graphique -----
 root = tk.Tk()
-root.title("Assistant Vocal")
+root.title("Polymath")
 root.geometry("900x650")
 
 # --- Configuration Frame ---
