@@ -210,7 +210,7 @@ def take_note():
   note = get_audio()
   if note:
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    filepath = f"note_{timestamp}.txt"
+    filepath = f"notes/note_{timestamp}.txt"
     try:
         with open(filepath,"w",encoding="utf-8") as f:
            f.write(note)
