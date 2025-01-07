@@ -10,22 +10,9 @@
     "quelle heure est-il": {
         "type": "time"
     },
-    "google": {
-        "type": "google"
-    },
-    "youtube": {
-        "type": "youtube"
-    },
-    "Wikip\u00e9dia": {
-        "type": "wikipedia"
-    },
     "dis bonjour": {
         "type": "say",
         "text": "Bonjour \u00e0 vous !"
-    },
-    "test": {
-        "type": "say",
-        "text": "test de voix"
     },
     "ouvre une musique relaxante": {
         "type": "open_file",
@@ -42,10 +29,6 @@
         "type": "launch",
         "path": "C:/Program Files/Google/Chrome/Application/chrome.exe"
     },
-    "ouvre le terminal": {
-        "type": "launch",
-        "path": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
-    },
     "ouvre notepad": {
         "type": "launch",
         "path": "C:/Windows/System32/notepad.exe"
@@ -57,15 +40,59 @@
         "type": "launch",
         "path": "C:/Program Files/Image-Line/FL Studio 2024/FL64.exe"
     },
-    "ouvre vscode": {
-        "type": "launch",
-        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
-    },
     "wesh ma gueule": {
         "type": "say",
         "text": "wesh bien ou quoi"
     },
     "on est quel jour": {
         "type": "date"
+    },
+    "test de voix": {
+        "type": "say",
+        "text": "test de voix"
+    },
+    "ouvre le terminal": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\cmd.bat"
+    },
+    "ouvre calculatrice": {
+        "type": "launch",
+        "path": "calc"
+    },
+    "ouvre paint": {
+        "type": "launch",
+        "path": "mspaint"
+    },
+    "ouvre m\u00e9t\u00e9o": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\meteo.bat"
+    },
+    "ouvre gestionnaire de t\u00e2ches": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\taskmgr.bat"
+    },
+    "ouvre wikip\u00e9dia": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\wikipedia.bat"
+    },
+    "ouvre musique": {
+        "type": "open_file",
+        "path": "C:\\Users\\USER\\Desktop\\exemple.wav"
+    },
+    "ouvre youtube": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\youtube.bat"
+    },
+    "ouvre google": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\google.bat"
+    },
+    "ouvre store": {
+        "type": "launch",
+        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\store.bat"
+    },
+    "ouvre vscode": {
+        "type": "launch",
+        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
     }
 }
