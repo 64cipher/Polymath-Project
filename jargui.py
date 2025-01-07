@@ -27,8 +27,10 @@ import webbrowser
 import threading
 import locale  # Import du module locale
 import keyboard # Import du module keyboard
-import schedule # Import du module schedule
 import time # Import du module time
+
+# Configuration du logging
+logging.basicConfig(filename='assistant.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Définir la locale en français (si disponible)
 try:
@@ -107,6 +109,7 @@ if not camera.isOpened():
 speech_to_text_active = False # Ajout de la variable pour l'état du speech to text
 text_buffer = "" # Ajout du tampon pour le texte
 speech_to_text_message_shown = False # Ajout de la variable pour savoir si le message a déjà été affiché.
+scheduled_task = {}
 
 # ----- Fonctions de Base -----
 
@@ -189,7 +192,8 @@ def calculate(query):
     try:
         # Retirer tous les caractères non numériques ou des opérations mathématiques
         query = re.sub(r'[^\d\s*\/+\-\.]', '', query)
-        query = re.sub(r'\b(?:fois|multiplier|x)\b', '*', query)
+        # Remplacer "fois", "multiplié par", et "multiplier par" par "*"
+        query = re.sub(r'\b(?:fois|multiplié par|multiplier par)\b', '*', query)
         result = eval(query)
         speak(f"Le résultat est {result}")
     except Exception as e:
@@ -622,10 +626,15 @@ def parse_time_from_speech(time_str):
       minutes = int(match.group(2)) if match.group(2) else 0 # Si les minutes sont absentes on prend 0
       if 0 <= hours <= 23 and 0 <= minutes <= 59:
           return f"{hours:02}:{minutes:02}"
+  elif "minuit" in time_str:
+     return "00:00"
+  elif "zéro heure" in time_str:
+    return "00:00"
   return None
     
 
 def schedule_task():
+    global scheduled_task
     speak(responses.get("schedule_command_prompt", "Quelle commande souhaitez-vous planifier ?"))
     command = get_audio()
     if not command:
@@ -633,19 +642,47 @@ def schedule_task():
         return
     
     while True: # Boucle pour réessayer la saisie d'heure.
-      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ?"))
+      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ? (format HH:MM)"))
       time_str = get_audio()
       if not time_str:
           speak(responses.get("schedule_no_time", "Je n'ai pas compris l'heure."))
           continue # Retour au début de la boucle.
       
       parsed_time = parse_time_from_speech(time_str) # Convertir l'heure au format HH:MM
+      logging.debug(f"Heure parsée : {parsed_time}")
       if parsed_time:
           try:
-            def task_to_execute():
+            scheduled_task["command"] = command # On stocke la commande
+            scheduled_task["time"] = parsed_time # On stocke l'heure
+            speak(responses.get("schedule_success",f"Tâche '{command}' planifiée pour {parsed_time}."))
+            logging.debug(f"Tâche '{command}' planifiée pour {parsed_time} (format 24h)")
+            break # Sortir de la boucle si tout est Ok
+          except Exception as e:
+             speak(responses.get("schedule_error", "Erreur lors de la planification de la tâche."))
+             print(e)
+             logging.exception(f"Erreur lors de la planification de la tâche : {e}")
+             break # Sortir de la boucle en cas d'erreur de planification
+
+      else:
+          speak(responses.get("schedule_time_error","Format de l'heure incorrect, veuillez réessayer (HH:MM) ou dire l'heure de façon naturelle (exemple: 22 heure 30, minuit ou zéro heure)."))
+          continue # Retour au début de la boucle.
+
+def main_loop():
+    global mode
+    global camera
+    global speech_to_text_active
+    global text_buffer
+    global speech_to_text_message_shown
+    global scheduled_task
+    listening = False
+    while True:
+        
+        now = datetime.datetime.now()
+        current_time = now.strftime("%H:%M")
+        if scheduled_task and current_time == scheduled_task["time"]: # On verifie si la tache planifiée est l'heure actuel
               try:
                  for cmd, action in commands.items():
-                    if cmd in command:
+                    if cmd in scheduled_task["command"]:
                         command_type = commands.get(cmd,{}).get("type")
                         if isinstance(action,dict) and action.get("type") == "open_file":
                                 open_file(action.get("path"))
@@ -660,40 +697,19 @@ def schedule_task():
                         elif command_type == "ask_calculate":
                               ask_calculate()
                         elif isinstance(action,dict) and action.get("type") == "google":
-                                search_web(command.replace("google","").strip(), "google")
+                                search_web(scheduled_task["command"].replace("google","").strip(), "google")
                         elif isinstance(action,dict) and action.get("type") == "youtube":
-                                search_web(command.replace("youtube","").strip(), "youtube")
+                                search_web(scheduled_task["command"].replace("youtube","").strip(), "youtube")
                         elif isinstance(action,dict) and action.get("type") == "wikipedia":
-                                 search_web(command.replace("wikipedia","").strip(), "wikipedia")
+                                 search_web(scheduled_task["command"].replace("wikipedia","").strip(), "wikipedia")
                         elif isinstance(action,dict) and action.get("type") == "say":
                             speak(action.get("text"))
                         break
               except Exception as e:
                 speak(responses.get("command_error", "Erreur lors de l'exécution de la commande"))
                 print(e)
-                
-            schedule.every().day.at(parsed_time).do(task_to_execute)
-            speak(responses.get("schedule_success",f"Tâche '{command}' planifiée pour {parsed_time}."))
-            break # Sortir de la boucle si tout est Ok
-          except Exception as e:
-             speak(responses.get("schedule_error", "Erreur lors de la planification de la tâche."))
-             print(e)
-             break # Sortir de la boucle en cas d'erreur de planification
-
-      else:
-          speak(responses.get("schedule_time_error","Format de l'heure incorrect, veuillez réessayer (HH:MM) ou dire l'heure de façon naturelle (exemple: 22 heure 30)."))
-          continue # Retour au début de la boucle.
-
-
-def main_loop():
-    global mode
-    global camera
-    global speech_to_text_active
-    global text_buffer
-    global speech_to_text_message_shown
-    listening = False
-    while True:
-        schedule.run_pending() # Vérifier s'il y a des taches planifiés à éxécuter.
+                logging.exception(f"Erreur lors de l'exécution de la tâche planifiée : {e}")
+              scheduled_task = {} # On vide la tache planifiée, elle est executé.
         if mode == "standard":
             if speech_to_text_active:
                 if not speech_to_text_message_shown:
