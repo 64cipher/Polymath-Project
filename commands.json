@@ -59,7 +59,7 @@
     },
     "ouvre vscode": {
         "type": "launch",
-        "path": "C:/Users/silve/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
     },
     "wesh ma gueule": {
         "type": "say",
