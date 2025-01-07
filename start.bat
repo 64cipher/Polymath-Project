@@ -1,2 +1,2 @@
 @echo off
-python jargui.py
+python main.py
