@@ -70,4 +70,4 @@ Vous pouvez personnaliser la table des caractères dans ```jargui.py``` Ligne 16
         text = re.sub(r'\b(?:point virgule)\b', ';', text)
         text = re.sub(r'\b(?:retour à la ligne)\b', '\n', text)
         text = re.sub(r'\b(?:arobase)\b', '@', text)
-        text = re.sub(r'\s*(?:point final)\s*$', '.', text) # mettre point . si il est seul```
+        text = re.sub(r'\s*(?:point final)\s*$', '.', text)```
