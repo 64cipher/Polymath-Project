@@ -1,0 +1,1 @@
+powershell start "https://meteofrance.com/previsions-meteo-france/thonon-les-bains/74200"
