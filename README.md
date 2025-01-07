@@ -30,7 +30,7 @@ Lancez ```start.bat```
     "calculer"
     "ouvre vscode"
     "Saisie vocale" (STT On)
-    "Arrêt de la saisie" (STT Off)
+    "Fin de la saisie" (STT Off)
     "on est quel jour"
     "Planifier tâche"
     "discuter" (chat avec Gemini)
