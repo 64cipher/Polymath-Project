@@ -281,7 +281,7 @@ def gemini_mode_interaction():
             if not listening:
                print("Écoute...")
                listening = True
-            speak_with_retry(responses.get("gemini_idle", "Je suis prêt à discuter en mode Gemini."))
+            #speak_with_retry(responses.get("gemini_idle", "Je suis prêt à discuter en mode Gemini."))
             llm_state = "listening"
         elif llm_state == "listening":
             if not listening:
@@ -780,7 +780,7 @@ def main_loop():
             command_recognized = False
             if "discuter" in query:
                 mode = "gemini"
-                speak_with_retry(responses.get("gemini_mode", "Mode Gemini activé."))
+                speak_with_retry(responses.get("gemini_mode", "Je suis prêt à discuter."))
                 gemini_mode_interaction()
                 mode = "standard"
                 continue
