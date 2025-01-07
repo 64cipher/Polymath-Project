@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, simpledialog
 import json
 import speech_recognition as sr
-import pyttsx3
 import requests
 import google.generativeai as genai
 import wikipedia
