@@ -1,1 +1,0 @@
-powershell start "https://google.com"
