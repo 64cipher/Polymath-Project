@@ -113,7 +113,7 @@ scheduled_task = {}
 # ----- Fonctions de Base -----
 
 def speak(text):
-    print(f"JARVIS: {text}")
+    print(f"Polymath: {text}")
     text = re.sub(r'\*', '', text)
     tts = gTTS(text, lang='fr')
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
@@ -124,7 +124,7 @@ def speak(text):
 
 def speak_with_retry(text):
     global tts # rendre la variable tts global pour quelle soit utilisable dans le try
-    print(f"JARVIS: {text}")
+    print(f"Polymath: {text}")
     text = re.sub(r'\*', '', text)
     retry_count = 0
     while True:
