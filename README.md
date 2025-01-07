@@ -39,7 +39,7 @@ Lancez ```start.bat```
     "webcam" (En mode Gemini)
     "standard" (retour en mode assistant)
 
-Pour ouvrir une console, configurer "ouvrir le terminal" et créer un fichier cmd.bat et mettre le chemin de ce fichier dans nouvelle commande sur le type Launch.
+Pour ouvrir une console, configurer "ouvrir le terminal" et créer un fichier ```cmd.bat``` et mettre le chemin de ce fichier dans nouvelle commande sur le type ```Launch```.
 
     "@echo on"
     "start powershell"
