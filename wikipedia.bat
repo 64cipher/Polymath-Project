@@ -1,1 +1,0 @@
-powershell start "https://wikipedia.com"
