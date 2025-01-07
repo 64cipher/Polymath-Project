@@ -5,7 +5,7 @@
     },
     "ouvre discord": {
         "type": "launch",
-        "path": "C:/Users/silve/AppData/Local/Discord/app-1.0.9175/Discord.exe"
+        "path": "C:/Users/USER/AppData/Local/Discord/app-1.0.9175/Discord.exe"
     },
     "quelle heure est-il": {
         "type": "time"
