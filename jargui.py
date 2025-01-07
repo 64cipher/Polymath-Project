@@ -163,6 +163,7 @@ def get_audio():
     try:
         text = r.recognize_google(audio, language='fr-FR')
         # On remplace les mots clés par de la ponctuation.
+        text = re.sub(r'\b(?:point com)\b', '.com', text)
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
         text = re.sub(r'\b(?:signe plus)\b', '+', text)
         text = re.sub(r'\b(?:astérisque)\b', '*', text)
@@ -757,7 +758,7 @@ def main_loop():
                     print("Saisie vocale active...")
                     speech_to_text_message_shown = True
                 query = get_audio()
-                if query and "arrêt de la saisie" not in query:
+                if query and "fin de la saisie" not in query:
                     # Simuler la saisie clavier dans la fenêtre active
                      text_buffer += query + " " # Ajouter le texte dans le buffer
                      text_area.config(state=tk.NORMAL) # rendre text_area normal pour pouvoir écrire
@@ -765,7 +766,7 @@ def main_loop():
                      text_area.insert(tk.END, text_buffer) # Afficher le nouveau texte.
                      text_area.config(state=tk.DISABLED) # On remet en mode lecture seule
                      keyboard.write(query + " ")
-                if "arrêt de la saisie" in query:
+                if "fin de la saisie" in query:
                     speech_to_text_active = False
                     speak_with_retry(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
                     speech_to_text_message_shown = False
