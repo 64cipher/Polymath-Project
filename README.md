@@ -4,6 +4,10 @@ Assistant virtuel personnalisable pour Windows
 
 ![image](https://github.com/user-attachments/assets/a8cffdf6-2e77-47d9-9a7b-baa0ee554535)
 
+
+https://github.com/user-attachments/assets/0e8568c2-79c1-418c-b1fc-d23b3f2d134d
+
+
 # Installation et Usage
 
 Placez votre clé API Gemini dans ```config.json```
