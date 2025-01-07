@@ -1,5 +1,4 @@
 # Polymath-Project
-JARVIS-like avec Gemini
 
 Assistant virtuel personnalisable pour Windows 
 
