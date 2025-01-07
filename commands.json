@@ -51,48 +51,48 @@
         "type": "say",
         "text": "test de voix"
     },
-    "ouvre le terminal": {
-        "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\cmd.bat"
-    },
-    "ouvre calculatrice": {
-        "type": "launch",
-        "path": "calc"
-    },
     "ouvre paint": {
         "type": "launch",
         "path": "mspaint"
     },
-    "ouvre m\u00e9t\u00e9o": {
-        "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\meteo.bat"
-    },
     "ouvre gestionnaire de t\u00e2ches": {
         "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\taskmgr.bat"
-    },
-    "ouvre wikip\u00e9dia": {
-        "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\wikipedia.bat"
+        "path": "C:\\Users\\USER\\Desktop\\projets dev\\jarvis\\taskmgr.bat"
     },
     "ouvre musique": {
         "type": "open_file",
-        "path": "C:\\Users\\USER\\Desktop\\exemple.wav"
+        "path": "C:\\Users\\USER\\Desktop\\hardtek test 01.wav"
     },
-    "ouvre youtube": {
+    "ouvre code": {
         "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\youtube.bat"
+        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
     },
-    "ouvre google": {
+    "ouvre la calculatrice": {
         "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\google.bat"
+        "path": "calc"
+    },
+    "ouvre la m\u00e9t\u00e9o": {
+        "type": "launch",
+        "path": "app\\meteo.bat"
     },
     "ouvre store": {
         "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\Polymath-Project\\store.bat"
+        "path": "app\\store.bat"
     },
-    "ouvre vscode": {
+    "ouvre google": {
         "type": "launch",
-        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+        "path": "app\\google.bat"
+    },
+    "ouvre youtube": {
+        "type": "launch",
+        "path": "app\\youtube.bat"
+    },
+    "ouvre wikip\u00e9dia": {
+        "type": "launch",
+        "path": "app\\wikipedia.bat"
+    },
+    "ouvre le terminal": {
+        "type": "launch",
+        "path": "app\\cmd.bat"
     }
 }
