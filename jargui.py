@@ -91,14 +91,14 @@ except Exception as e:
     print(f"Erreur lors de la configuration de l'API Gemini: {e}")
     model = None
 
-engine = pyttsx3.init()
-voices = engine.getProperty('voices')
-try:
-    engine.setProperty('voice', voices[config.get("voice_index", 0)].id)
-except Exception as e:
-    print(f"Erreur lors de la sélection de la voix: {e}")
-engine.setProperty('rate', 150)
-engine.setProperty('volume', 1)
+#engine = pyttsx3.init() # Suppression
+#voices = engine.getProperty('voices') # Suppression
+#try: # Suppression
+ #   engine.setProperty('voice', voices[config.get("voice_index", 0)].id) # Suppression
+#except Exception as e: # Suppression
+ #   print(f"Erreur lors de la sélection de la voix: {e}") # Suppression
+#engine.setProperty('rate', 150) # Suppression
+#engine.setProperty('volume', 1) # Suppression
 
 # ----- Variables Globales -----
 mode = "standard"
@@ -123,6 +123,30 @@ def speak(text):
     playsound(tmp_file_path)
     os.remove(tmp_file_path)
 
+def speak_with_retry(text):
+    global tts # rendre la variable tts global pour quelle soit utilisable dans le try
+    print(f"Texte envoyé à gTTS (avec retry): {text}")
+    text = re.sub(r'\*', '', text)
+    retry_count = 0
+    while True:
+        try:
+          tts = gTTS(text, lang='fr')
+          with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
+             tts.save(tmp_file.name)
+             tmp_file_path = tmp_file.name
+          playsound(tmp_file_path)
+          os.remove(tmp_file_path)
+          break
+        except Exception as e:
+          logging.exception(f"Erreur gTTS : {e}")
+          retry_count += 1
+          if retry_count > 3:
+            logging.debug(f"Réessayer : ({retry_count}) - Réinitialisation de gTTS")
+            speak(responses.get("tts_error", "Erreur lors de la synthèse vocale, j'ai réinitialisé les paramètres"))
+            tts = gTTS(text, lang='fr') # Essayer de créer une nouvelle instance de tts si les problèmes persistent.
+            retry_count = 0
+          time.sleep(1) # attendre une seconde avant de réessayer
+
 def get_audio():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -138,7 +162,24 @@ def get_audio():
         
     try:
         text = r.recognize_google(audio, language='fr-FR')
-        #print(f"Vous avez dit : {text}") # on ne le print plus ici, on va le print si une command est reconnu
+        # On remplace les mots clés par de la ponctuation.
+        text = re.sub(r'\b(?:signe dièse)\b', '#', text)
+        text = re.sub(r'\b(?:signe plus)\b', '+', text)
+        text = re.sub(r'\b(?:astérisque)\b', '*', text)
+        text = re.sub(r'\b(?:signe fois)\b', '*', text)
+        text = re.sub(r'\b(?:pourcent)\b', '%', text)
+        text = re.sub(r'\b(?:signe moins)\b', '-', text)
+        text = re.sub(r'\b(?:guillemet)\b', '"', text)
+        text = re.sub(r'\b(?:slash)\b', '/', text)
+        text = re.sub(r'\b(?:signe euro)\b', '€', text)
+        text = re.sub(r'\b(?:point d\'interrogation)\b', '?', text)
+        text = re.sub(r'\b(?:point d\'exclamation|exclamation)\b', '!', text)
+        text = re.sub(r'\b(?:virgule)\b', ',', text)
+        text = re.sub(r'\b(?:deux points)\b', ':', text)
+        text = re.sub(r'\b(?:point virgule)\b', ';', text)
+        text = re.sub(r'\b(?:retour à la ligne)\b', '\n', text)
+        text = re.sub(r'\b(?:arobase)\b', '@', text)
+        text = re.sub(r'\s*(?:point final)\s*$', '.', text) # mettre point . si il est seul
         return text.lower()
     except sr.UnknownValueError:
         #print("Je n'ai pas compris.")
@@ -150,21 +191,21 @@ def get_audio():
 def launch_app(path):
     try:
         subprocess.Popen(path)
-        speak(responses.get("app_launched", "Application lancée."))
+        speak_with_retry(responses.get("app_launched", "Application lancée."))
     except Exception as e:
-        speak(responses.get("app_error", "Erreur lors du lancement de l'application."))
+        speak_with_retry(responses.get("app_error", "Erreur lors du lancement de l'application."))
         print(e)
         
 def open_file(path):
     try:
         os.startfile(path)
-        speak(responses.get("file_opened","Fichier ouvert"))
+        speak_with_retry(responses.get("file_opened","Fichier ouvert"))
     except Exception as e:
-        speak(responses.get("file_error","Erreur lors de l'ouverture du fichier"))
+        speak_with_retry(responses.get("file_error","Erreur lors de l'ouverture du fichier"))
         print(e)
         
 def take_note():
-  speak(responses.get("note_prompt", "Que souhaitez-vous noter?"))
+  speak_with_retry(responses.get("note_prompt", "Que souhaitez-vous noter?"))
   note = get_audio()
   if note:
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -172,21 +213,21 @@ def take_note():
     try:
         with open(filepath,"w",encoding="utf-8") as f:
            f.write(note)
-        speak(responses.get("note_saved", f"Note enregistrée dans {filepath}"))
+        speak_with_retry(responses.get("note_saved", f"Note enregistrée dans {filepath}"))
         
     except Exception as e:
-        speak(responses.get("note_error","Erreur lors de la sauvegarde de la note"))
+        speak_with_retry(responses.get("note_error","Erreur lors de la sauvegarde de la note"))
         print(e)
 
 def get_time():
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M")
-    speak(f"Il est {current_time}.")
+    speak_with_retry(f"Il est {current_time}.")
     
 def get_date():
     now = datetime.datetime.now()
     current_date = now.strftime("%d %B %Y")
-    speak(f"Nous sommes le {current_date}.")
+    speak_with_retry(f"Nous sommes le {current_date}.")
 
 def calculate(query):
     try:
@@ -195,13 +236,13 @@ def calculate(query):
         # Remplacer "fois", "multiplié par", et "multiplier par" par "*"
         query = re.sub(r'\b(?:fois|multiplié par|multiplier par)\b', '*', query)
         result = eval(query)
-        speak(f"Le résultat est {result}")
+        speak_with_retry(f"Le résultat est {result}")
     except Exception as e:
-        speak(responses.get("calc_error", "Je n'ai pas compris le calcul."))
+        speak_with_retry(responses.get("calc_error", "Je n'ai pas compris le calcul."))
         print(e)
         
 def ask_calculate():
-   speak(responses.get("calculate_prompt","Quel calcul souhaitez-vous effectuer ?"))
+   speak_with_retry(responses.get("calculate_prompt","Quel calcul souhaitez-vous effectuer ?"))
    query = get_audio()
    if query:
         calculate(query)
@@ -215,18 +256,18 @@ def search_web(query, engine_type):
         elif engine_type == "wikipedia":
              try:
                 result = wikipedia.summary(quote(query), sentences=2, auto_suggest=False)
-                speak(result)
+                speak_with_retry(result)
                 return
              except wikipedia.exceptions.PageError:
-                speak(responses.get("wiki_notfound","Page introuvable sur Wikipedia"))
+                speak_with_retry(responses.get("wiki_notfound","Page introuvable sur Wikipedia"))
                 return
         else:
             return
         
         webbrowser.open(url)
-        speak(responses.get("search_done", f"Voici les résultats pour {query}."))
+        speak_with_retry(responses.get("search_done", f"Voici les résultats pour {query}."))
     except Exception as e:
-        speak(responses.get("search_error", "Erreur lors de la recherche."))
+        speak_with_retry(responses.get("search_error", "Erreur lors de la recherche."))
         print(e)
 
 # ----- Fonctions Mode Gemini -----
@@ -240,7 +281,7 @@ def gemini_mode_interaction():
             if not listening:
                print("Écoute...")
                listening = True
-            speak(responses.get("gemini_idle", "Je suis prêt à discuter en mode Gemini."))
+            speak_with_retry(responses.get("gemini_idle", "Je suis prêt à discuter en mode Gemini."))
             llm_state = "listening"
         elif llm_state == "listening":
             if not listening:
@@ -251,20 +292,20 @@ def gemini_mode_interaction():
               continue
             listening = False # réinitialiser la variable ici
             if "standard" in query:
-                speak(responses.get("mode_standard","Je repasse en mode standard."))
+                speak_with_retry(responses.get("mode_standard","Je repasse en mode standard."))
                 llm_state = "idle"
                 return
             elif "screenshot" in query:
-                speak(responses.get("screenshot_question", "Que souhaitez-vous faire avec la capture d'écran ?"))
+                speak_with_retry(responses.get("screenshot_question", "Que souhaitez-vous faire avec la capture d'écran ?"))
                 llm_state = "taking_screenshot"
                 continue
             elif "webcam" in query:
-                speak(responses.get("webcam_question", "Que souhaitez-vous faire avec l'image de la webcam ?"))
+                speak_with_retry(responses.get("webcam_question", "Que souhaitez-vous faire avec l'image de la webcam ?"))
                 llm_state = "taking_webcam"
                 continue
             else:
                 gemini_response = send_to_gemini(query)
-                speak(gemini_response)
+                speak_with_retry(gemini_response)
                 
         elif llm_state == "taking_screenshot":
             image = take_screenshot()
@@ -287,7 +328,7 @@ def take_screenshot():
         
         return img_bytes
     except Exception as e:
-        speak(responses.get("screenshot_import_error", "Erreur: lors de la capture d'écran."))
+        speak_with_retry(responses.get("screenshot_import_error", "Erreur: lors de la capture d'écran."))
         print(e)
         return None
 
@@ -296,7 +337,7 @@ def take_webcam_capture():
     try:
         ret, frame = camera.read()
         if not ret:
-            speak(responses.get("webcam_error","Impossible de lire la webcam"))
+            speak_with_retry(responses.get("webcam_error","Impossible de lire la webcam"))
             return None
         
         _, encoded_image = cv2.imencode('.png', frame)
@@ -305,7 +346,7 @@ def take_webcam_capture():
         return image_bytes
 
     except Exception as e:
-        speak(responses.get("webcam_capture_error", "Une erreur s'est produite lors de la capture de l'image avec la webcam."))
+        speak_with_retry(responses.get("webcam_capture_error", "Une erreur s'est produite lors de la capture de l'image avec la webcam."))
         print(e)
         return None
 
@@ -317,7 +358,7 @@ def handle_image_query(image):
             continue
         if "décris l'image" in query:
             response = send_image_to_gemini(image, query, "Décris cette image")
-            speak(response)
+            speak_with_retry(response)
             llm_state = "listening"
             return
         elif "sauvegarde l'image" in query:
@@ -326,7 +367,7 @@ def handle_image_query(image):
             return
         else:
             response = send_image_to_gemini(image, query, "Analyse cette image")
-            speak(response)
+            speak_with_retry(response)
             llm_state = "listening"
             return
 
@@ -358,10 +399,10 @@ def save_image(image):
       filepath = f"image_{timestamp}.png"
       with open(filepath,"wb") as f:
          f.write(image)
-      speak(responses.get("image_saved", f"Image sauvegardée en tant que {filepath}"))
+      speak_with_retry(responses.get("image_saved", f"Image sauvegardée en tant que {filepath}"))
   except Exception as e:
       print(e)
-      speak(responses.get("image_save_error", "Erreur lors de la sauvegarde de l'image"))
+      speak_with_retry(responses.get("image_save_error", "Erreur lors de la sauvegarde de l'image"))
 
 # ----- Fonctions de l'Interface Graphique -----
 def update_config(new_config):
@@ -369,10 +410,10 @@ def update_config(new_config):
     config.update(new_config)
     save_config(config)
 
-    try:
-        engine.setProperty('voice', voices[config.get("voice_index",0)].id)
-    except Exception as e:
-        print(f"Erreur lors de la mise à jour de la voix: {e}")
+    #try: # Suppression
+    #    engine.setProperty('voice', voices[config.get("voice_index",0)].id) # Suppression
+    #except Exception as e: # Suppression
+     #   print(f"Erreur lors de la mise à jour de la voix: {e}") # Suppression
     try:
        genai.configure(api_key=config.get("gemini_api_key"))
        global model
@@ -382,8 +423,8 @@ def update_config(new_config):
 
 def save_settings():
     new_gemini_key = gemini_key_entry.get()
-    new_voice_index = voice_names.index(voice_combo.get())
-    update_config({"gemini_api_key": new_gemini_key, "voice_index": new_voice_index})
+    #new_voice_index = voice_names.index(voice_combo.get()) # Suppression
+    update_config({"gemini_api_key": new_gemini_key, "voice_index": 0}) # Suppression + on remplace l'index par 0 car plus utilisé
     messagebox.showinfo("Configuration", "Configuration enregistrée.")
 
 def add_command():
@@ -635,36 +676,36 @@ def parse_time_from_speech(time_str):
 
 def schedule_task():
     global scheduled_task
-    speak(responses.get("schedule_command_prompt", "Quelle commande souhaitez-vous planifier ?"))
+    speak_with_retry(responses.get("schedule_command_prompt", "Quelle commande souhaitez-vous planifier ?"))
     command = get_audio()
     if not command:
-        speak(responses.get("schedule_no_command", "Je n'ai pas compris la commande."))
+        speak_with_retry(responses.get("schedule_no_command", "Je n'ai pas compris la commande."))
         return
     
     while True: # Boucle pour réessayer la saisie d'heure.
-      speak(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ? (format HH:MM)"))
+      speak_with_retry(responses.get("schedule_time_prompt","À quelle heure souhaitez-vous l'exécuter ? (format HH:MM)"))
       time_str = get_audio()
       if not time_str:
-          speak(responses.get("schedule_no_time", "Je n'ai pas compris l'heure."))
+          speak_with_retry(responses.get("schedule_no_time", "Je n'ai pas compris l'heure."))
           continue # Retour au début de la boucle.
       
       parsed_time = parse_time_from_speech(time_str) # Convertir l'heure au format HH:MM
       logging.debug(f"Heure parsée : {parsed_time}")
       if parsed_time:
           try:
-            scheduled_task["command"] = command # On stocke la commande
-            scheduled_task["time"] = parsed_time # On stocke l'heure
-            speak(responses.get("schedule_success",f"Tâche '{command}' planifiée pour {parsed_time}."))
-            logging.debug(f"Tâche '{command}' planifiée pour {parsed_time} (format 24h)")
-            break # Sortir de la boucle si tout est Ok
+           scheduled_task["command"] = command # On stocke la commande
+           scheduled_task["time"] = parsed_time # On stocke l'heure
+           speak_with_retry(responses.get("schedule_success",f"Tâche '{command}' planifiée pour {parsed_time}."))
+           logging.debug(f"Tâche '{command}' planifiée pour {parsed_time} (format 24h)")
+           break # Sortir de la boucle si tout est Ok
           except Exception as e:
-             speak(responses.get("schedule_error", "Erreur lors de la planification de la tâche."))
+             speak_with_retry(responses.get("schedule_error", "Erreur lors de la planification de la tâche."))
              print(e)
              logging.exception(f"Erreur lors de la planification de la tâche : {e}")
              break # Sortir de la boucle en cas d'erreur de planification
 
       else:
-          speak(responses.get("schedule_time_error","Format de l'heure incorrect, veuillez réessayer (HH:MM) ou dire l'heure de façon naturelle (exemple: 22 heure 30, minuit ou zéro heure)."))
+          speak_with_retry(responses.get("schedule_time_error","Format de l'heure incorrect, veuillez réessayer (HH:MM) ou dire l'heure de façon naturelle (exemple: 22 heure 30, minuit ou zéro heure)."))
           continue # Retour au début de la boucle.
 
 def main_loop():
@@ -703,10 +744,10 @@ def main_loop():
                         elif isinstance(action,dict) and action.get("type") == "wikipedia":
                                  search_web(scheduled_task["command"].replace("wikipedia","").strip(), "wikipedia")
                         elif isinstance(action,dict) and action.get("type") == "say":
-                            speak(action.get("text"))
+                            speak_with_retry(action.get("text"))
                         break
               except Exception as e:
-                speak(responses.get("command_error", "Erreur lors de l'exécution de la commande"))
+                speak_with_retry(responses.get("command_error", "Erreur lors de l'exécution de la commande"))
                 print(e)
                 logging.exception(f"Erreur lors de l'exécution de la tâche planifiée : {e}")
               scheduled_task = {} # On vide la tache planifiée, elle est executé.
@@ -718,10 +759,15 @@ def main_loop():
                 query = get_audio()
                 if query and "arrêt de la saisie" not in query:
                     # Simuler la saisie clavier dans la fenêtre active
-                    keyboard.write(query + " ")
+                     text_buffer += query + " " # Ajouter le texte dans le buffer
+                     text_area.config(state=tk.NORMAL) # rendre text_area normal pour pouvoir écrire
+                     text_area.delete("1.0", tk.END) # Supprimer le texte existant
+                     text_area.insert(tk.END, text_buffer) # Afficher le nouveau texte.
+                     text_area.config(state=tk.DISABLED) # On remet en mode lecture seule
+                     keyboard.write(query + " ")
                 if "arrêt de la saisie" in query:
                     speech_to_text_active = False
-                    speak(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
+                    speak_with_retry(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
                     speech_to_text_message_shown = False
                 continue
             if not listening:
@@ -734,7 +780,7 @@ def main_loop():
             command_recognized = False
             if "discuter" in query:
                 mode = "gemini"
-                speak(responses.get("gemini_mode", "Mode Gemini activé."))
+                speak_with_retry(responses.get("gemini_mode", "Mode Gemini activé."))
                 gemini_mode_interaction()
                 mode = "standard"
                 continue
@@ -742,7 +788,7 @@ def main_loop():
             if "saisie vocale" in query:
                 speech_to_text_active = True
                 text_buffer = ""
-                speak(responses.get("speech_to_text_start","Saisie vocale activée"))
+                speak_with_retry(responses.get("speech_to_text_start","Saisie vocale activée"))
                 continue
             
             if "planifier tâche" in query:
@@ -774,7 +820,7 @@ def main_loop():
                     elif isinstance(action,dict) and action.get("type") == "wikipedia":
                         search_web(query.replace("wikipedia","").strip(), "wikipedia")
                     elif isinstance(action,dict) and action.get("type") == "say":
-                        speak(action.get("text"))
+                        speak_with_retry(action.get("text"))
                     break
             if not command_recognized:
                 continue
@@ -782,7 +828,7 @@ def main_loop():
 # ----- Initialisation de l'Interface Graphique -----
 root = tk.Tk()
 root.title("Assistant Vocal")
-root.geometry("800x600")
+root.geometry("900x650")
 
 # --- Configuration Frame ---
 config_frame = ttk.LabelFrame(root, text="Configuration")
@@ -793,11 +839,11 @@ gemini_key_entry = tk.Entry(config_frame, width=40)
 gemini_key_entry.insert(0, config.get("gemini_api_key", ""))
 gemini_key_entry.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
-tk.Label(config_frame, text="Voix:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=5)
-voice_names = [voice.name for voice in voices]
-voice_combo = ttk.Combobox(config_frame, values=voice_names, state="readonly")
-voice_combo.set(voice_names[config.get("voice_index", 0)])
-voice_combo.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
+#tk.Label(config_frame, text="Voix:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=5) # Suppression car on l'utilise plus
+#voice_names = [voice.name for voice in voices]  # Suppression
+voice_combo = ttk.Combobox(config_frame, values=[], state="readonly") # Modification ici, list vide car on utilise plus pyttsx3
+#voice_combo.set(voice_names[config.get("voice_index", 0)]) # Suppression
+#voice_combo.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
 
 save_button = tk.Button(config_frame, text="Enregistrer", command=save_settings)
 save_button.grid(row=2, column=1, sticky=tk.E, padx=5, pady=5)
@@ -851,7 +897,7 @@ text_area.grid(row=0,column=0, padx=5, pady=5)
 text_area.config(state=tk.DISABLED) # Désactiver la zone de texte pour éviter toute modification manuelle
 
 # --- Démarrage de la boucle principale ---
-speak(responses.get("startup_message", "Bonjour, je suis à votre écoute."))
+speak_with_retry(responses.get("startup_message", "Bonjour, je suis à votre écoute."))
 
 # Démmarrer la boucle principale dans un thread séparé
 threading.Thread(target=main_loop, daemon=True).start()
