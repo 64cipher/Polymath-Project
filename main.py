@@ -90,7 +90,7 @@ try:
 except Exception as e:
     print(f"Erreur lors de la configuration de l'API Gemini: {e}")
     model = None
-    
+
 # ----- Variables Globales -----
 mode = "standard"
 llm_state = "idle"
@@ -155,16 +155,10 @@ def get_audio():
         text = r.recognize_google(audio, language='fr-FR')
         # On remplace les mots clés par de la ponctuation.
         text = re.sub(r'\b(?:signe égal)\b', '=', text)
-        text = re.sub(r'\b(?:est égal)\b', '=', text)
         text = re.sub(r'\b(?:point com)\b', '.com', text)
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
-        text = re.sub(r'\b(?:signe plus)\b', '+', text)
-        text = re.sub(r'\b(?:astérisque)\b', '*', text)
-        text = re.sub(r'\b(?:fois sur)\b', '*', text)
         text = re.sub(r'\b(?:pourcent)\b', '%', text)
-        text = re.sub(r'\b(?:signe moins)\b', '-', text)
         text = re.sub(r'\b(?:guillemet)\b', '"', text)
-        text = re.sub(r'\b(?:slash)\b', '/', text)
         text = re.sub(r'\b(?:signe euro)\b', '€', text)
         text = re.sub(r'\b(?:point d\'interrogation)\b', '?', text)
         text = re.sub(r'\b(?:point d\'exclamation|exclamation)\b', '!', text)
@@ -226,9 +220,10 @@ def get_date():
 def calculate(query):
     try:
         # Retirer tous les caractères non numériques ou des opérations mathématiques
-        query = re.sub(r'[^\d\s*\/+\-\.]', '', query)
+        query = re.sub(r'[^\d\s*\/+\-\.\(\)]', '', query)
         # Remplacer "fois", "multiplié par", et "multiplier par" par "*"
-        query = re.sub(r'\b(?:fois|multiplié par|multiplier par)\b', '*', query)
+        query = re.sub(r'\s*\b(?:fois|multiplié par|multiplier par)\b\s*', '*', query)
+        print(f"Chaîne à évaluer : {query}")
         result = eval(query)
         speak_with_retry(f"Le résultat est {result}")
     except Exception as e:
@@ -409,11 +404,7 @@ def update_config(new_config):
     global config, engine, voices
     config.update(new_config)
     save_config(config)
-
-    #try: # Suppression
-    #    engine.setProperty('voice', voices[config.get("voice_index",0)].id) # Suppression
-    #except Exception as e: # Suppression
-    #    print(f"Erreur lors de la mise à jour de la voix: {e}") # Suppression
+    
     try:
        genai.configure(api_key=config.get("gemini_api_key"))
        global model
@@ -716,11 +707,12 @@ def main_loop():
     global speech_to_text_message_shown
     global scheduled_task
     listening = False
+    last_text_update = time.time() # Temps de la dernière mise à jour du texte
+    
     while True:
-        
         now = datetime.datetime.now()
         current_time = now.strftime("%H:%M")
-        if scheduled_task and current_time == scheduled_task["time"]: # On verifie si la tache planifiée est l'heure actuel
+        if scheduled_task and current_time == scheduled_task["time"]:
               try:
                  for cmd, action in commands.items():
                     if cmd in scheduled_task["command"]:
@@ -758,13 +750,15 @@ def main_loop():
                     speech_to_text_message_shown = True
                 query = get_audio()
                 if query and "fin de la saisi" not in query:
-                    # Simuler la saisie clavier dans la fenêtre active
-                     text_buffer += query + " " # Ajouter le texte dans le buffer
-                     text_area.config(state=tk.NORMAL) # rendre text_area normal pour pouvoir écrire
-                     text_area.delete("1.0", tk.END) # Supprimer le texte existant
-                     text_area.insert(tk.END, text_buffer) # Afficher le nouveau texte.
-                     text_area.config(state=tk.DISABLED) # On remet en mode lecture seule
-                     keyboard.write(query + " ")
+                    text_buffer += query + " "
+                    # Mise à jour du champ de texte toutes les 0.5 secondes ou quand il y a du texte
+                    if time.time() - last_text_update >= 1.2 or query :
+                        text_area.config(state=tk.NORMAL)
+                        text_area.delete("1.0", tk.END)
+                        text_area.insert(tk.END, text_buffer)
+                        text_area.config(state=tk.DISABLED)
+                        last_text_update = time.time()
+                    keyboard.write(query + " ")
                 if "fin de la saisie" in query:
                     speech_to_text_active = False
                     speak_with_retry(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
