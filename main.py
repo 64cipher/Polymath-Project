@@ -154,7 +154,8 @@ def get_audio():
     try:
         text = r.recognize_google(audio, language='fr-FR')
         # On remplace les mots clés par de la ponctuation.
-        text = re.sub(r'\b(?:est égale)\b', '=', text)
+        text = re.sub(r'\b(?:signe égal)\b', '=', text)
+        text = re.sub(r'\b(?:est égal)\b', '=', text)
         text = re.sub(r'\b(?:point com)\b', '.com', text)
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
         text = re.sub(r'\b(?:signe plus)\b', '+', text)
