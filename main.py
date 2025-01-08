@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, simpledialog
 import json
 import speech_recognition as sr
+import pyttsx3
 import requests
 import google.generativeai as genai
 import wikipedia
@@ -89,16 +90,7 @@ try:
 except Exception as e:
     print(f"Erreur lors de la configuration de l'API Gemini: {e}")
     model = None
-
-#engine = pyttsx3.init() # Suppression
-#voices = engine.getProperty('voices') # Suppression
-#try: # Suppression
- #   engine.setProperty('voice', voices[config.get("voice_index", 0)].id) # Suppression
-#except Exception as e: # Suppression
- #   print(f"Erreur lors de la sélection de la voix: {e}") # Suppression
-#engine.setProperty('rate', 150) # Suppression
-#engine.setProperty('volume', 1) # Suppression
-
+    
 # ----- Variables Globales -----
 mode = "standard"
 llm_state = "idle"
@@ -162,11 +154,12 @@ def get_audio():
     try:
         text = r.recognize_google(audio, language='fr-FR')
         # On remplace les mots clés par de la ponctuation.
+        text = re.sub(r'\b(?:est égale)\b', '=', text)
         text = re.sub(r'\b(?:point com)\b', '.com', text)
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
         text = re.sub(r'\b(?:signe plus)\b', '+', text)
         text = re.sub(r'\b(?:astérisque)\b', '*', text)
-        text = re.sub(r'\b(?:signe fois)\b', '*', text)
+        text = re.sub(r'\b(?:fois sur)\b', '*', text)
         text = re.sub(r'\b(?:pourcent)\b', '%', text)
         text = re.sub(r'\b(?:signe moins)\b', '-', text)
         text = re.sub(r'\b(?:guillemet)\b', '"', text)
@@ -209,7 +202,7 @@ def take_note():
   note = get_audio()
   if note:
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    filepath = f"notes/note_{timestamp}.txt"
+    filepath = f"note_{timestamp}.txt"
     try:
         with open(filepath,"w",encoding="utf-8") as f:
            f.write(note)
@@ -290,6 +283,12 @@ def gemini_mode_interaction():
             query = get_audio()
             if query == "":
               continue
+            
+            if "stop" in query: # nouvelle vérification ici
+               speak_with_retry(responses.get("gemini_stop","J'arrête la conversation avec Gemini"))
+               llm_state = "idle"
+               return
+
             listening = False # réinitialiser la variable ici
             if "standard" in query:
                 speak_with_retry(responses.get("mode_standard","Je repasse en mode standard."))
@@ -413,7 +412,7 @@ def update_config(new_config):
     #try: # Suppression
     #    engine.setProperty('voice', voices[config.get("voice_index",0)].id) # Suppression
     #except Exception as e: # Suppression
-     #   print(f"Erreur lors de la mise à jour de la voix: {e}") # Suppression
+    #    print(f"Erreur lors de la mise à jour de la voix: {e}") # Suppression
     try:
        genai.configure(api_key=config.get("gemini_api_key"))
        global model
@@ -424,7 +423,7 @@ def update_config(new_config):
 def save_settings():
     new_gemini_key = gemini_key_entry.get()
     #new_voice_index = voice_names.index(voice_combo.get()) # Suppression
-    update_config({"gemini_api_key": new_gemini_key, "voice_index": 0}) # Suppression + on remplace l'index par 0 car plus utilisé
+    update_config({"gemini_api_key": new_gemini_key, "voice_index": 0}) # Suppréssion + on remplace l'index par 0 car plus utilisé
     messagebox.showinfo("Configuration", "Configuration enregistrée.")
 
 def add_command():
@@ -757,7 +756,7 @@ def main_loop():
                     print("Saisie vocale active...")
                     speech_to_text_message_shown = True
                 query = get_audio()
-                if query and "fin de la saisie" not in query:
+                if query and "fin de la saisi" not in query:
                     # Simuler la saisie clavier dans la fenêtre active
                      text_buffer += query + " " # Ajouter le texte dans le buffer
                      text_area.config(state=tk.NORMAL) # rendre text_area normal pour pouvoir écrire
@@ -828,7 +827,7 @@ def main_loop():
 # ----- Initialisation de l'Interface Graphique -----
 root = tk.Tk()
 root.title("Polymath")
-root.geometry("900x650")
+root.geometry("800x600")
 
 # --- Configuration Frame ---
 config_frame = ttk.LabelFrame(root, text="Configuration")
