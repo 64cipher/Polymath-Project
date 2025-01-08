@@ -822,7 +822,7 @@ def main_loop():
 # ----- Initialisation de l'Interface Graphique -----
 root = tk.Tk()
 root.title("Polymath")
-root.geometry("850x650")
+root.geometry("862x630")
 
 # --- Configuration Frame ---
 config_frame = ttk.LabelFrame(root, text="Configuration")
