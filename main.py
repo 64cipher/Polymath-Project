@@ -368,7 +368,7 @@ def handle_image_query(image):
 
 def send_image_to_gemini(image, query, prompt_placeholder):
     try:
-        print(f"Type de l'image envoyée à Gemini: {type(image)}")
+        print(f"Analyse de l'image: {type(image)}")
         if not isinstance(image, bytes):
             return responses.get("image_process_error","Erreur: Le format de l'image n'est pas supporté, l'image doit etre un byte.")
             
