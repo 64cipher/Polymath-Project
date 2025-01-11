@@ -74,4 +74,34 @@ Vous pouvez personnaliser la table des caractères dans ```main.py``` Ligne 166
         text = re.sub(r'\b(?:point virgule)\b', ';', text)
         text = re.sub(r'\b(?:retour à la ligne)\b', '\n', text)
         text = re.sub(r'\b(?:arobase)\b', '@', text)
-        text = re.sub(r'\s*(?:point final)\s*$', '.', text)```
+        text = re.sub(r'\s*(?:point final)\s*$', '.', text)
+```
+Vous pouvez modifier les mot pour déclancher copier-coller, séléctionner, etc... à partir de la ligne 761
+
+```
+                        for word in query.split():
+                        if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
+                            keyboard.press_and_release('enter')
+                        elif word == "backspace": # On simule un "ctrl + backspace" pour effacer le mot précédent
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('backspace')
+                            keyboard.release('ctrl')
+                        elif word == "sélectionner": # On simule un "ctrl + A" pour selectionner le texte
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('a')
+                            keyboard.release('ctrl')                        
+                        elif word == "copier": # On simule un "ctrl + C" pour copier
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('c')
+                            keyboard.release('ctrl') 
+                        elif word == "coller": # On simule un "ctrl + V" pour coller
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('v')
+                            keyboard.release('ctrl') 
+                        elif word == "menu": # On simule un "Touche Windows" pour ouvrir le menu démarrer
+                            keyboard.press_and_release('cmd')
+                        elif word == "switch": # On simule un "ctrl + V" pour coller
+                            keyboard.press('alt')
+                            keyboard.press_and_release('tab')
+                            keyboard.release('alt')
+```
