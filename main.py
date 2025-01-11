@@ -107,6 +107,9 @@ scheduled_task = {}
 def speak(text):
     print(f"Polymath: {text}")
     text = re.sub(r'\*', '', text)
+    # Ajouter ces lignes pour remplacer les guillemets et autres caractères
+    text = re.sub(r'"', '', text)  # Supprimer les guillemets doubles
+    text = re.sub(r"`", '', text)  # Supprimer les guillemets simples inversés
     tts = gTTS(text, lang='fr')
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
         tts.save(tmp_file.name)
@@ -118,6 +121,9 @@ def speak_with_retry(text):
     global tts # rendre la variable tts global pour quelle soit utilisable dans le try
     print(f"Polymath: {text}")
     text = re.sub(r'\*', '', text)
+    # Ajouter ces lignes pour remplacer les guillemets et autres caractères
+    text = re.sub(r'"', '', text)  # Supprimer les guillemets doubles
+    text = re.sub(r"`", '', text)  # Supprimer les guillemets simples inversés
     retry_count = 0
     while True:
         try:
