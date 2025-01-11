@@ -780,7 +780,7 @@ def main_loop():
                         elif query == "annuler l'action": # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('z')
-                            keyboard.release('ctrl')
+                            keyboard.release('ctrl')                                                 
                         elif query == "rétablir l'action": # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('y')
@@ -793,6 +793,10 @@ def main_loop():
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
                             keyboard.release('ctrl') 
+                        elif query == "fermer la fenêtre": # On simule un "ctrl + V" pour coller
+                            keyboard.press('alt')
+                            keyboard.press_and_release('f4')
+                            keyboard.release('alt') 
                         elif word == "menu": # On simule un "Touche Windows" pour ouvrir le menu démarrer
                             keyboard.press_and_release('cmd')
                         elif word == "switch": # On simule un "ctrl + V" pour coller
