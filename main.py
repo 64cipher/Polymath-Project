@@ -752,28 +752,30 @@ def main_loop():
                 if query and "fin de la saisie" not in query:
                     text_buffer += query + " "
                     # Mise à jour du champ de texte toutes les 0.5 secondes ou quand il y a du texte
-                    if time.time() - last_text_update >= 0.2 or query :
+                    if time.time() - last_text_update >= 0.1 or query :
                         text_area.config(state=tk.NORMAL)
-                        text_area.delete("1.0", tk.END)
+                        text_area.delete("0.5", tk.END)
                         text_area.insert(tk.END, text_buffer)
                         text_area.config(state=tk.DISABLED)
                         last_text_update = time.time()
                     for word in query.split():
-                        if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
+                        if query == "retour à la ligne":  # On simule le "Entrer" pour le retour à la ligne
                             keyboard.press_and_release('enter')
-                        elif word == "backspace": # On simule un "ctrl + backspace" pour effacer le mot précédent
+                        elif query == "effacer le mot": # On simule un "ctrl + backspace" pour effacer le mot précédent
                             keyboard.press('ctrl')
                             keyboard.press_and_release('backspace')
                             keyboard.release('ctrl')
-                        elif "tout sélectionner" in query: # On simule un "ctrl + A" pour selectionner le texte
+                        elif query == "effacer le texte": # On simule un "ctrl + backspace" pour effacer le mot précédent                            
+                            keyboard.press_and_release('backspace')
+                        elif query == "tout sélectionner": # On simule un "ctrl + A" pour selectionner le texte
                             keyboard.press('ctrl')
                             keyboard.press_and_release('a')
                             keyboard.release('ctrl')                        
-                        elif "copier le texte" in query: # On simule un "ctrl + C" pour copier
+                        elif query == "copier le texte": # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
                             keyboard.release('ctrl') 
-                        elif "coller le texte" in query: # On simule un "ctrl + V" pour coller
+                        elif query == "coller le texte": # On simule un "ctrl + V" pour coller
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
                             keyboard.release('ctrl') 
