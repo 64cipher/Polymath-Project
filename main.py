@@ -154,6 +154,7 @@ def get_audio():
     try:
         text = r.recognize_google(audio, language='fr-FR')
         # On remplace les mots clés par de la ponctuation.
+        text = re.sub(r'\b(?:signe slash)\b', '/', text)
         text = re.sub(r'\b(?:signe égal)\b', '=', text)
         text = re.sub(r'\b(?:point com)\b', '.com', text)
         text = re.sub(r'\b(?:signe dièse)\b', '#', text)
@@ -165,7 +166,6 @@ def get_audio():
         text = re.sub(r'\b(?:virgule)\b', ',', text)
         text = re.sub(r'\b(?:deux points)\b', ':', text)
         text = re.sub(r'\b(?:point virgule)\b', ';', text)
-        text = re.sub(r'\b(?:retour à la ligne)\b', '\n', text)
         text = re.sub(r'\b(?:arobase)\b', '@', text)
         text = re.sub(r'\s*(?:point final)\s*$', '.', text) # mettre point . si il est seul
         return text.lower()
@@ -749,18 +749,49 @@ def main_loop():
                     print("Saisie vocale active...")
                     speech_to_text_message_shown = True
                 query = get_audio()
-                if query and "fin de la saisi" not in query:
+                if query and "fin de la saisie" not in query:
                     text_buffer += query + " "
                     # Mise à jour du champ de texte toutes les 0.5 secondes ou quand il y a du texte
-                    if time.time() - last_text_update >= 1.2 or query :
+                    if time.time() - last_text_update >= 0.2 or query :
                         text_area.config(state=tk.NORMAL)
                         text_area.delete("1.0", tk.END)
                         text_area.insert(tk.END, text_buffer)
                         text_area.config(state=tk.DISABLED)
                         last_text_update = time.time()
-                    keyboard.write(query + " ")
+                    for word in query.split():
+                        if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
+                            keyboard.press_and_release('enter')
+                        elif word == "backspace": # On simule un "ctrl + backspace" pour effacer le mot précédent
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('backspace')
+                            keyboard.release('ctrl')
+                        elif word == "sélectionner": # On simule un "ctrl + A" pour selectionner le texte
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('a')
+                            keyboard.release('ctrl')                        
+                        elif word == "copier": # On simule un "ctrl + C" pour copier
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('c')
+                            keyboard.release('ctrl') 
+                        elif word == "coller": # On simule un "ctrl + V" pour coller
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('v')
+                            keyboard.release('ctrl') 
+                        elif word == "menu": # On simule un "Touche Windows" pour ouvrir le menu démarrer
+                            keyboard.press_and_release('cmd')
+                        elif word == "switch": # On simule un "ctrl + V" pour coller
+                            keyboard.press('alt')
+                            keyboard.press_and_release('tab')
+                            keyboard.release('alt') 
+                        else:
+                            keyboard.write(word + " ")
+                            time.sleep(0.1) # Delais pour éviter une saisie trop rapide
                 if "fin de la saisie" in query:
                     speech_to_text_active = False
+                    text_buffer = "" # Efface le tampon de texte
+                    text_area.config(state=tk.NORMAL) # Réactive la zone de texte pour le futur
+                    text_area.delete("1.0", tk.END)
+                    text_area.config(state=tk.DISABLED) # Désactiver la zone de texte après l'avoir effacé.
                     speak_with_retry(responses.get("speech_to_text_stop", "Saisie vocale désactivée"))
                     speech_to_text_message_shown = False
                 continue
