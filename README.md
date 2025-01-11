@@ -64,6 +64,8 @@ D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 "coller le texte"
 "menu" (touche windows)
 "switch" (changer de fenêtre)
+"annuler l'action"
+"rétablir l'action"
 ```
 
 # Note
