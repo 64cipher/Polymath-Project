@@ -765,15 +765,15 @@ def main_loop():
                             keyboard.press('ctrl')
                             keyboard.press_and_release('backspace')
                             keyboard.release('ctrl')
-                        elif word == "sélectionner": # On simule un "ctrl + A" pour selectionner le texte
+                        elif "tout sélectionner" in query: # On simule un "ctrl + A" pour selectionner le texte
                             keyboard.press('ctrl')
                             keyboard.press_and_release('a')
                             keyboard.release('ctrl')                        
-                        elif word == "copier": # On simule un "ctrl + C" pour copier
+                        elif "copier le texte" in query: # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
                             keyboard.release('ctrl') 
-                        elif word == "coller": # On simule un "ctrl + V" pour coller
+                        elif "coller le texte" in query: # On simule un "ctrl + V" pour coller
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
                             keyboard.release('ctrl') 
