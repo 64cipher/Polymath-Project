@@ -107,10 +107,6 @@
         "type": "say",
         "text": "qui c'est ?"
     },
-    "prout": {
-        "type": "open_file",
-        "path": "C:\\Users\\USER\\Desktop\\1603.mp3"
-    },
     "pr\u00e9sentation": {
         "type": "say",
         "text": "Bonjour ! Je suis Polymath, un assistant vocal virtuel \u00e0 votre \u00e9coute ! Je peux executer et planifier des t\u00e2ches, \u00e9crire en utilisant votre micro et discuter sur pleins de sujets. Je suis dot\u00e9 de la vision ! Je peux analyser le contenu d'une image comme, une photo de votre webcam ou une capture d'\u00e9cran de votre ordinateur ! N'h\u00e9sitez pas \u00e0 me solliciter !"
