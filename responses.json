@@ -1,6 +1,6 @@
 {
   "startup_message": "Bonjour, je suis à votre écoute.",
-  "app_launched": "Application lancée.",
+  "app_launched": "OK.",
   "app_error": "Erreur lors du lancement de l'application.",
   "time_response": "Il est actuellement {time}.",
   "calc_error": "Je n'ai pas compris le calcul.",
