@@ -76,7 +76,7 @@ Vous pouvez personnaliser la table des caractères dans ```main.py``` Ligne 166
         text = re.sub(r'\b(?:arobase)\b', '@', text)
         text = re.sub(r'\s*(?:point final)\s*$', '.', text)
 ```
-Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, etc... à partir de la ligne 761
+Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, etc... à partir de la ligne 761, ultisez elif ```query == "votre phrase de commande"``` pour les phrases et ```elif word == "mot"``` pour les mots seuls.
 
 ```
                     for word in query.split():
