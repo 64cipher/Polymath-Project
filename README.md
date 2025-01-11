@@ -54,7 +54,7 @@ Ouvrir un site web spécifique depuis un fichier bat qui contient
 
 D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
-# Commande du mode "Saisie Vocale"
+# Commandes du mode "Saisie Vocale"
 
 ```
 "retour à la ligne"
