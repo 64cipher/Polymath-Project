@@ -777,6 +777,14 @@ def main_loop():
                             keyboard.press('ctrl')
                             keyboard.press_and_release('a')
                             keyboard.release('ctrl')                        
+                        elif query == "annuler l'action": # On simule un "ctrl + C" pour copier
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('z')
+                            keyboard.release('ctrl')
+                        elif query == "rétablir l'action": # On simule un "ctrl + C" pour copier
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('y')
+                            keyboard.release('ctrl')
                         elif query == "copier le texte": # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
