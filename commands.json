@@ -29,10 +29,6 @@
         "type": "launch",
         "path": "C:/Program Files/Google/Chrome/Application/chrome.exe"
     },
-    "ouvre notepad": {
-        "type": "launch",
-        "path": "C:/Windows/System32/notepad.exe"
-    },
     "calculer": {
         "type": "ask_calculate"
     },
@@ -50,14 +46,6 @@
     "test de voix": {
         "type": "say",
         "text": "test de voix"
-    },
-    "ouvre paint": {
-        "type": "launch",
-        "path": "mspaint"
-    },
-    "ouvre gestionnaire de t\u00e2ches": {
-        "type": "launch",
-        "path": "C:\\Users\\USER\\Desktop\\projets dev\\jarvis\\taskmgr.bat"
     },
     "ouvre musique": {
         "type": "open_file",
@@ -79,14 +67,6 @@
         "type": "launch",
         "path": "app\\store.bat"
     },
-    "ouvre google": {
-        "type": "launch",
-        "path": "app\\google.bat"
-    },
-    "ouvre youtube": {
-        "type": "launch",
-        "path": "app\\youtube.bat"
-    },
     "ouvre wikip\u00e9dia": {
         "type": "launch",
         "path": "app\\wikipedia.bat"
@@ -94,5 +74,89 @@
     "ouvre le terminal": {
         "type": "launch",
         "path": "app\\cmd.bat"
+    },
+    "salut assistant": {
+        "type": "say",
+        "text": "Salut ! \u00e7a dit quoi ?"
+    },
+    "rick roll": {
+        "type": "launch",
+        "path": "app\\rick.bat"
+    },
+    "atchoum": {
+        "type": "say",
+        "text": "\u00e0 t'es souhaits !"
+    },
+    "tout casser": {
+        "type": "say",
+        "text": "casse pas tou grooooo, \u00e7a coute ch\u00e8re le matosse !"
+    },
+    "ouvre chat": {
+        "type": "launch",
+        "path": "app\\chat.bat"
+    },
+    "je vais aller dormir": {
+        "type": "say",
+        "text": "Bonne nuit ! \u00e0 demain !"
+    },
+    "ouvre dessin": {
+        "type": "launch",
+        "path": "mspaint"
+    },
+    "toc toc": {
+        "type": "say",
+        "text": "qui c'est ?"
+    },
+    "prout": {
+        "type": "open_file",
+        "path": "C:\\Users\\USER\\Desktop\\1603.mp3"
+    },
+    "pr\u00e9sentation": {
+        "type": "say",
+        "text": "Bonjour ! Je suis Polymath, un assistant vocal virtuel \u00e0 votre \u00e9coute ! Je peux executer et planifier des t\u00e2ches, \u00e9crire en utilisant votre micro et discuter sur pleins de sujets. Je suis dot\u00e9 de la vision ! Je peux analyser le contenu d'une image comme, une photo de votre webcam ou une capture d'\u00e9cran de votre ordinateur ! N'h\u00e9sitez pas \u00e0 me solliciter !"
+    },
+    "ouvre mail": {
+        "type": "launch",
+        "path": "app\\mail.bat"
+    },
+    "ouvre whatsapp": {
+        "type": "launch",
+        "path": "app\\whatsapp.bat"
+    },
+    "ouvre gestionnaire de t\u00e2ches": {
+        "type": "launch",
+        "path": "app\\taskmgr.bat"
+    },
+    "raconte une blague": {
+        "type": "say",
+        "text": "c'est l'histoire d'un noir et d'un arabe"
+    },
+    "fais un podcast": {
+        "type": "say",
+        "text": "Je sais pas si vous avez remarquer mais les arabe et les noir ils te raquette dans l'm\u00e9tro"
+    },
+    "\u00e9teindre ordinateur": {
+        "type": "launch",
+        "path": "app\\shutdown.bat"
+    },
+    "ouvre notepad": {
+        "type": "launch",
+        "path": "C:/Windows/System32/notepad.exe"
+    },
+    "va sur youtube": {
+        "type": "launch",
+        "path": "app\\youtube.bat"
+    },
+    "va sur google": {
+        "type": "launch",
+        "path": "app\\google.bat"
+    },
+    "ceci est un test": {
+        "type": "say",
+        "text": "ceci est un ```test``` de l'application, comme d'habitude"
+    },
+    "fermer la fen\u00eatre": {
+        "type": "launch",
+        "path": "app\\close.bat"
     }
 }
