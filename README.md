@@ -53,6 +53,19 @@ Ouvrir un site web spécifique depuis un fichier bat qui contient
 
 D'autres fonctionnalités sont à venir en fonction de mon inspiration.
 
+# Commande du mode "Saisie Vocale"
+
+```
+"retour à la ligne"
+"effacer le mot"
+"effacer le texte"
+"tout sélectionner"
+"copier le texte"
+"coller le texte"
+"menu" (touche windows)
+"switch" (changer de fenêtre)
+```
+
 # Note
 
 Vous pouvez personnaliser la table des caractères dans ```main.py``` Ligne 166
