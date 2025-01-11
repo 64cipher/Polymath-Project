@@ -7,6 +7,11 @@ Assistant virtuel personnalisable pour Windows
 
 https://github.com/user-attachments/assets/82dba3f6-cfe6-45c8-a6ed-3e9eaa29f992
 
+# Prérequis 
+
+Environnement Python3.11 + pip
+
+Pour Windows 10/11
 
 # Installation et Usage
 
