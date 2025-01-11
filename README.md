@@ -79,22 +79,22 @@ Vous pouvez personnaliser la table des caractères dans ```main.py``` Ligne 166
 Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, etc... à partir de la ligne 761
 
 ```
-                        for word in query.split():
+                    for word in query.split():
                         if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
                             keyboard.press_and_release('enter')
                         elif word == "backspace": # On simule un "ctrl + backspace" pour effacer le mot précédent
                             keyboard.press('ctrl')
                             keyboard.press_and_release('backspace')
                             keyboard.release('ctrl')
-                        elif word == "sélectionner": # On simule un "ctrl + A" pour selectionner le texte
+                        elif "tout sélectionner" in query: # On simule un "ctrl + A" pour selectionner le texte
                             keyboard.press('ctrl')
                             keyboard.press_and_release('a')
                             keyboard.release('ctrl')                        
-                        elif word == "copier": # On simule un "ctrl + C" pour copier
+                        elif "copier le texte" in query: # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
                             keyboard.release('ctrl') 
-                        elif word == "coller": # On simule un "ctrl + V" pour coller
+                        elif "coller le texte" in query: # On simule un "ctrl + V" pour coller
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
                             keyboard.release('ctrl') 
