@@ -28,6 +28,7 @@ Lancez ```start.bat```
     "dis bonjour"
     "test"
     "prends note"
+    "fermer la fenêtre" (fait un alt-f4 sur la fenêtre active)
     "ouvre chrome"
     "ouvre le terminal"
     "ouvre notepad"
