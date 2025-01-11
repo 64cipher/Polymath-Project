@@ -80,21 +80,23 @@ Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, et
 
 ```
                     for word in query.split():
-                        if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
+                        if query == "retour à la ligne":  # On simule le "Entrer" pour le retour à la ligne
                             keyboard.press_and_release('enter')
-                        elif word == "backspace": # On simule un "ctrl + backspace" pour effacer le mot précédent
+                        elif query == "effacer le mot": # On simule un "ctrl + backspace" pour effacer le mot précédent
                             keyboard.press('ctrl')
                             keyboard.press_and_release('backspace')
                             keyboard.release('ctrl')
-                        elif "tout sélectionner" in query: # On simule un "ctrl + A" pour selectionner le texte
+                        elif query == "effacer le texte": # On simule un "ctrl + backspace" pour effacer le mot précédent                            
+                            keyboard.press_and_release('backspace')
+                        elif query == "tout sélectionner": # On simule un "ctrl + A" pour selectionner le texte
                             keyboard.press('ctrl')
                             keyboard.press_and_release('a')
                             keyboard.release('ctrl')                        
-                        elif "copier le texte" in query: # On simule un "ctrl + C" pour copier
+                        elif query == "copier le texte": # On simule un "ctrl + C" pour copier
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
                             keyboard.release('ctrl') 
-                        elif "coller le texte" in query: # On simule un "ctrl + V" pour coller
+                        elif query == "coller le texte": # On simule un "ctrl + V" pour coller
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
                             keyboard.release('ctrl') 
@@ -103,5 +105,5 @@ Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, et
                         elif word == "switch": # On simule un "ctrl + V" pour coller
                             keyboard.press('alt')
                             keyboard.press_and_release('tab')
-                            keyboard.release('alt')
+                            keyboard.release('alt') 
 ```
