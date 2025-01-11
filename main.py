@@ -797,6 +797,8 @@ def main_loop():
                             keyboard.press('alt')
                             keyboard.press_and_release('f4')
                             keyboard.release('alt') 
+                        elif word == "space": # On simule la barre espace
+                            keyboard.press_and_release(' ')
                         elif word == "menu": # On simule un "Touche Windows" pour ouvrir le menu démarrer
                             keyboard.press_and_release('cmd')
                         elif word == "switch": # On simule un "ctrl + V" pour coller
