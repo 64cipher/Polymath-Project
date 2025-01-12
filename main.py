@@ -174,6 +174,7 @@ def get_audio():
         text = re.sub(r'\b(?:point virgule)\b', ';', text)
         text = re.sub(r'\b(?:arobase)\b', '@', text)
         text = re.sub(r'\s*(?:point final)\s*$', '.', text) # mettre point . si il est seul
+        text = re.sub(r'\b(?:minuit)\b', '0h', text)
         return text.lower()
     except sr.UnknownValueError:
         #print("Je n'ai pas compris.")
