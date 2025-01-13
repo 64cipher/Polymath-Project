@@ -38,7 +38,7 @@ Lancez ```start.bat```
     "ouvre le terminal"
     "ouvre notepad"
     "calculer"
-    "ouvre code"
+    "ouvre code" (vscode)
     "Saisie vocale" (STT On)
     "Fin de la saisie" (STT Off)
     "on est quel jour"
