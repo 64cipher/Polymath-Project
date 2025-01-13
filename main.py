@@ -761,12 +761,12 @@ def main_loop():
                     # Mise à jour du champ de texte toutes les 0.5 secondes ou quand il y a du texte
                     if time.time() - last_text_update >= 0.1 or query :
                         text_area.config(state=tk.NORMAL)
-                        text_area.delete("0.5", tk.END)
+                        text_area.delete("0.1", tk.END)
                         text_area.insert(tk.END, text_buffer)
                         text_area.config(state=tk.DISABLED)
                         last_text_update = time.time()
                     for word in query.split():
-                        if query == "retour à la ligne":  # On simule le "Entrer" pour le retour à la ligne
+                        if word == "hunter":  # On simule le "Entrer" pour le retour à la ligne
                             keyboard.press_and_release('enter')
                         elif query == "effacer le mot": # On simule un "ctrl + backspace" pour effacer le mot précédent
                             keyboard.press('ctrl')
@@ -790,18 +790,22 @@ def main_loop():
                             keyboard.press('ctrl')
                             keyboard.press_and_release('c')
                             keyboard.release('ctrl') 
-                        elif query == "coller le texte": # On simule un "ctrl + V" pour coller
+                        elif word == "collage": # On simule un "ctrl + V" pour coller
                             keyboard.press('ctrl')
                             keyboard.press_and_release('v')
+                            keyboard.release('ctrl') 
+                        elif query == "couper le texte": # On simule un "ctrl + V" pour coller
+                            keyboard.press('ctrl')
+                            keyboard.press_and_release('x')
                             keyboard.release('ctrl') 
                         elif query == "fermer la fenêtre": # On simule un "ctrl + V" pour coller
                             keyboard.press('alt')
                             keyboard.press_and_release('f4')
                             keyboard.release('alt') 
-                        elif word == "space": # On simule la barre espace
-                            keyboard.press_and_release(' ')
                         elif word == "menu": # On simule un "Touche Windows" pour ouvrir le menu démarrer
                             keyboard.press_and_release('cmd')
+                        elif word == "space": # On simule un "Touche Windows" pour ouvrir le menu démarrer
+                            keyboard.press_and_release(' ')
                         elif word == "switch": # On simule un "ctrl + V" pour coller
                             keyboard.press('alt')
                             keyboard.press_and_release('tab')

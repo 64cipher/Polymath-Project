@@ -5,7 +5,7 @@
     },
     "ouvre discord": {
         "type": "launch",
-        "path": "C:/Users/USER/AppData/Local/Discord/app-1.0.9175/Discord.exe"
+        "path": "C:/Users/silve/AppData/Local/Discord/app-1.0.9175/Discord.exe"
     },
     "quelle heure est-il": {
         "type": "time"
@@ -49,11 +49,11 @@
     },
     "ouvre musique": {
         "type": "open_file",
-        "path": "C:\\Users\\USER\\Desktop\\hardtek test 01.wav"
+        "path": "C:\\Users\\silve\\Desktop\\hardtek test 01.wav"
     },
     "ouvre code": {
         "type": "launch",
-        "path": "C:/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+        "path": "C:/Users/silve/AppData/Local/Programs/Microsoft VS Code/Code.exe"
     },
     "ouvre la calculatrice": {
         "type": "launch",
@@ -83,6 +83,10 @@
         "type": "launch",
         "path": "app\\rick.bat"
     },
+    "ma bite": {
+        "type": "open_file",
+        "path": "C:\\Users\\silve\\Desktop\\1603.mp3"
+    },
     "atchoum": {
         "type": "say",
         "text": "\u00e0 t'es souhaits !"
@@ -107,6 +111,10 @@
         "type": "say",
         "text": "qui c'est ?"
     },
+    "prout": {
+        "type": "open_file",
+        "path": "C:\\Users\\silve\\Desktop\\1603.mp3"
+    },
     "pr\u00e9sentation": {
         "type": "say",
         "text": "Bonjour ! Je suis Polymath, un assistant vocal virtuel \u00e0 votre \u00e9coute ! Je peux executer et planifier des t\u00e2ches, \u00e9crire en utilisant votre micro et discuter sur pleins de sujets. Je suis dot\u00e9 de la vision ! Je peux analyser le contenu d'une image comme, une photo de votre webcam ou une capture d'\u00e9cran de votre ordinateur ! N'h\u00e9sitez pas \u00e0 me solliciter !"
@@ -118,10 +126,6 @@
     "ouvre whatsapp": {
         "type": "launch",
         "path": "app\\whatsapp.bat"
-    },
-    "ouvre gestionnaire de t\u00e2ches": {
-        "type": "launch",
-        "path": "app\\taskmgr.bat"
     },
     "raconte une blague": {
         "type": "say",
@@ -154,5 +158,37 @@
     "fermer la fen\u00eatre": {
         "type": "launch",
         "path": "app\\close.bat"
+    },
+    "touche windows": {
+        "type": "launch",
+        "path": "app\\start.bat"
+    },
+    "ouvre le gestionnaire de t\u00e2ches": {
+        "type": "launch",
+        "path": "app\\taskmgr.bat"
+    },
+    "tac tac": {
+        "type": "say",
+        "text": "huhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+    },
+    "double clic": {
+        "type": "launch",
+        "path": "app\\click.bat"
+    },
+    "souris cam\u00e9ra": {
+        "type": "launch",
+        "path": "C:\\Program Files (x86)\\Enable Viacam\\bin\\eviacam.exe"
+    },
+    "clic droit": {
+        "type": "launch",
+        "path": "C:\\jarvis\\app\\clique-droit.bat"
+    },
+    "clic gauche": {
+        "type": "launch",
+        "path": "C:\\jarvis\\app\\clique-gauche.bat"
+    },
+    "maintenir clic": {
+        "type": "launch",
+        "path": "app\\maintenir-clic.bat"
     }
 }
