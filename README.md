@@ -129,3 +129,17 @@ Vous pouvez modifier les mots pour déclancher copier-coller, séléctionner, et
                             keyboard.press_and_release('tab')
                             keyboard.release('alt') 
 ```
+# Control de la souris par la webcam avec Enable Viacam.
+
+Installer Enable Viacam: https://eviacam.crea-si.com/
+
+Désactiver les cliques automatiques dans les paramètres et utiliser les commandes vocales suivantes:
+
+```
+    "double clic"
+    "clic droit"
+    "clic gauche"
+    "maintenir clic"
+```
+
+Pour relâcher le clique, dites ```clic gauche```
