@@ -31,7 +31,7 @@ Lancez ```start.bat```
     "ouvre google"
     "ouvre youtube"
     "dis bonjour"
-    "test"
+    "test de voix"
     "prends note"
     "fermer la fenêtre" (fait un alt-f4 sur la fenêtre active)
     "ouvre chrome"
