@@ -30,7 +30,7 @@ import keyboard # Import du module keyboard
 import time # Import du module time
 
 # Configuration du logging
-logging.basicConfig(filename='assistant.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+#logging.basicConfig(filename='assistant.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Définir la locale en français (si disponible)
 try:
