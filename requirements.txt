@@ -1,6 +1,5 @@
 Pillow
 SpeechRecognition
-pyttsx3
 requests
 google-generativeai
 wikipedia
