@@ -32,7 +32,7 @@ Lancez ```start.bat```
     "va sur youtube"
     "dis bonjour"
     "test de voix"
-    "prends note"
+    "prends note" (Dans le dossier "notes")
     "fermer la fenêtre" (fait un alt-f4 sur la fenêtre active)
     "ouvre chrome"
     "ouvre le terminal"
@@ -43,6 +43,7 @@ Lancez ```start.bat```
     "Fin de la saisie" (STT Off)
     "on est quel jour"
     "Planifier tâche"
+    "Créer un dossier" (Sur le bureau)
     "discuter" (chat avec Gemini)
     "screenshot" (En mode Gemini)
     "webcam" (En mode Gemini)
