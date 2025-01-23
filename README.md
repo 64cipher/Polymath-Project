@@ -15,7 +15,7 @@ Pour Windows 10/11
 
 # Installation et Usage
 
-Placez votre clé API Gemini dans ```config.json```
+Placez votre clé API Gemini dans ```config.json``` ou directement sur le GUI
 
 ```pip install -r requirements.py```
 
