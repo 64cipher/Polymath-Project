@@ -35,6 +35,10 @@
     "schedule_no_time": "Je n'ai pas compris l'heure.",
     "command_error": "Erreur lors de l'ex\u00e9cution de la commande",
     "schedule_time_prompt": "\u00c0 quelle heure souhaitez-vous l'ex\u00e9cuter ?",
-    "file_opened": "trop marrant !",
-    "app_launched": "OK."
+    "file_opened": "Fichier ouvert !",
+    "app_launched": "OK.",
+    "folder_name_prompt": "Quel nom souhaitez-vous donner au dossier ?",
+    "folder_created": "Dossier '{folder_name}' créé sur le bureau.",
+    "folder_error": "Erreur lors de la création du dossier.",
+    "folder_name_error": "Nom de dossier non spécifié."
 }
