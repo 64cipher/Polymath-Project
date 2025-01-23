@@ -85,7 +85,7 @@ responses = load_responses()
 
 try:
     genai.configure(api_key=config.get("gemini_api_key"))
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
 except Exception as e:
     print(f"Erreur lors de la configuration de l'API Gemini: {e}")
     model = None
@@ -265,6 +265,21 @@ def search_web(query, engine_type):
         speak_with_retry(responses.get("search_error", "Erreur lors de la recherche."))
         print(e)
 
+def create_desktop_folder():
+    speak_with_retry(responses.get("folder_name_prompt", "Quel nom souhaitez-vous donner au dossier ?"))
+    folder_name = get_audio()
+    if folder_name:
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        new_folder_path = os.path.join(desktop_path, folder_name)
+        try:
+            os.makedirs(new_folder_path, exist_ok=True)
+            speak_with_retry(responses.get("folder_created", f"Dossier '{folder_name}' créé sur le bureau."))
+        except Exception as e:
+            speak_with_retry(responses.get("folder_error", "Erreur lors de la création du dossier."))
+            print(e)
+    else:
+        speak_with_retry(responses.get("folder_name_error", "Nom de dossier non spécifié."))
+
 # ----- Fonctions Mode Gemini -----
 
 def gemini_mode_interaction():
@@ -433,7 +448,7 @@ def add_command():
     command_entry.grid(row=0, column=1, sticky=tk.W)
 
     tk.Label(new_command_window, text="Type:").grid(row=1, column=0, sticky=tk.W)
-    command_type_combo = ttk.Combobox(new_command_window, values=["open_file", "launch", "take_note","time", "date","ask_calculate","google","youtube","wikipedia","say"], state="readonly")
+    command_type_combo = ttk.Combobox(new_command_window, values=["open_file", "launch", "take_note","time", "date","ask_calculate","google","youtube","wikipedia","say", "create_folder"], state="readonly")
     command_type_combo.set("say")
     command_type_combo.grid(row=1, column=1, sticky=tk.W)
     
@@ -470,6 +485,8 @@ def add_command():
                 messagebox.showerror("Erreur", "Le texte à prononcer est requis pour ce type de commande.")
                 return
             commands[new_command] = {"type": new_command_type, "text": new_text}
+        elif new_command_type == "create_folder": # Ajout de la condition pour create_folder
+            commands[new_command] = {"type": new_command_type}
         else:
             commands[new_command] = {"type": new_command_type}
                 
@@ -498,7 +515,7 @@ def edit_command():
     command_entry.grid(row=0, column=1, sticky=tk.W)
     
     tk.Label(edit_command_window, text="Type:").grid(row=1, column=0, sticky=tk.W)
-    command_type_combo = ttk.Combobox(edit_command_window, values=["open_file", "launch", "take_note","time","date","ask_calculate","google","youtube","wikipedia","say"], state="readonly")
+    command_type_combo = ttk.Combobox(edit_command_window, values=["open_file", "launch", "take_note","time","date","ask_calculate","google","youtube","wikipedia","say", "create_folder"], state="readonly")
     command_type_combo.set(commands[selected_command].get("type","say"))
     command_type_combo.grid(row=1, column=1, sticky=tk.W)
     
@@ -536,6 +553,8 @@ def edit_command():
                 messagebox.showerror("Erreur", "Le texte à prononcer est requis pour ce type de commande.")
                 return
             commands[new_command] = {"type": new_command_type, "text": new_text}
+        elif new_command_type == "create_folder": # Ajout de la condition pour create_folder
+            commands[new_command] = {"type": new_command_type}
         else:
             commands[new_command] = {"type": new_command_type}
                 
@@ -743,6 +762,8 @@ def main_loop():
                                  search_web(scheduled_task["command"].replace("wikipedia","").strip(), "wikipedia")
                         elif isinstance(action,dict) and action.get("type") == "say":
                             speak_with_retry(action.get("text"))
+                        elif isinstance(action,dict) and action.get("type") == "create_folder": # Ajout de la condition pour create_folder
+                            create_desktop_folder()
                         break
               except Exception as e:
                 speak_with_retry(responses.get("command_error", "Erreur lors de l'exécution de la commande"))
@@ -872,6 +893,8 @@ def main_loop():
                         search_web(query.replace("wikipedia","").strip(), "wikipedia")
                     elif isinstance(action,dict) and action.get("type") == "say":
                         speak_with_retry(action.get("text"))
+                    elif isinstance(action,dict) and action.get("type") == "create_folder": # Ajout de la condition pour create_folder
+                        create_desktop_folder()
                     break
             if not command_recognized:
                 continue
