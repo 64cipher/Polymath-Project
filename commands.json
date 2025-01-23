@@ -158,5 +158,8 @@
     "maintenir clic": {
         "type": "launch",
         "path": "app\\maintenir-clic.bat"
+    },
+    "créer un dossier": {
+        "type": "create_folder"
     }
 }
