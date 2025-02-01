@@ -85,7 +85,7 @@ responses = load_responses()
 
 try:
     genai.configure(api_key=config.get("gemini_api_key"))
-    model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
 except Exception as e:
     print(f"Erreur lors de la configuration de l'API Gemini: {e}")
     model = None
