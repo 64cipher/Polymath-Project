@@ -79,10 +79,6 @@
         "type": "launch",
         "path": "app\\rick.bat"
     },
-    "atchoum": {
-        "type": "say",
-        "text": "\u00e0 t'es souhaits !"
-    },
     "ouvre chat": {
         "type": "launch",
         "path": "app\\chat.bat"
