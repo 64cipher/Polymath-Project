@@ -220,8 +220,16 @@ def get_time():
     
 def get_date():
     now = datetime.datetime.now()
-    current_date = now.strftime("%d %B %Y")
-    speak_with_retry(f"Nous sommes le {current_date}.")
+    day = now.day
+    year = now.year
+    month_number = now.month # Numéro du mois (1 pour janvier, 2 pour février, etc.)
+
+    # Liste des noms de mois en français (UTF-8)
+    french_months = ["janvier", "février", "mars", "avril", "mai", "juin",
+                     "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+    month_name = french_months[month_number - 1] # Obtenir le nom du mois à partir de la liste (indexé à 0)
+    current_date_manual_format = f"{day:02} {month_name} {year}" # Formatage manuel de la date
+    speak_with_retry(f"Nous sommes le {current_date_manual_format}.") # Utiliser le format manuel pour speak
 
 def calculate(query):
     try:
